@@ -3,6 +3,24 @@
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
+# =============================================================
+# FIX: Disable torch.compile/dynamo to prevent FP8 dtype errors
+# on Ampere GPUs (A40, A100, RTX 30xx)
+#
+# The fp8e4nv format is only supported on Ada Lovelace GPUs.
+# Ampere GPUs only support fp8e4b15 and fp8e5.
+# Disabling dynamo prevents incompatible kernel generation.
+# =============================================================
+export TORCH_COMPILE_DISABLE=1
+export TORCHDYNAMO_DISABLE=1
+export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+
+# Additional safeguards for FP8 compatibility
+export DISABLE_FP8=1
+export PYTORCH_NO_CUDA_MEMORY_CACHING=0
+
+echo "FP8 compatibility fix applied: torch.compile disabled"
+
 # Start ComfyUI in the background
 echo "Starting ComfyUI in the background..."
 python /ComfyUI/main.py --listen --use-sage-attention &
