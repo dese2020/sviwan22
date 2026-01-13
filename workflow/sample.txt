@@ -1,0 +1,16 @@
+
+{
+  "input": {
+    "workflow": "svi_prosame",
+    "image_url": "https://tu-cdn/entrada.jpg",
+    "width": 576,
+    "height": 864,
+    "length": 81,
+    "prompt": "Describe la escena deseada de forma neutral y segura.",
+    "negative_prompt": "overexposed, static, blur, artifacts, low quality",
+    "high_lora_name": "mi_lora_high.safetensors",
+    "high_lora_strength": 0.8,
+    "low_lora_name": "mi_lora_low.safetensors",
+    "low_lora_strength": 0.8
+  }
+}

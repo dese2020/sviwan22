@@ -1,3 +1,4 @@
+
 import runpod
 from runpod.serverless.utils import rp_upload
 import os
@@ -8,88 +9,107 @@ import uuid
 import logging
 import urllib.request
 import urllib.parse
-import binascii # Base64 에러 처리를 위해 import
+import binascii  # Para manejo de errores Base64
 import subprocess
 import time
-# 로깅 설정
+
+# ------------------------------------------------------------
+# Logging
+# ------------------------------------------------------------
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
+# ------------------------------------------------------------
+# Config
+# ------------------------------------------------------------
 server_address = os.getenv('SERVER_ADDRESS', '127.0.0.1')
 client_id = str(uuid.uuid4())
+
+# Ruta del workflow SVI ProSame (mantiene el espacio en el nombre)
+WORKFLOW_SVI_PROSAME = os.path.join("workflow", "SVI ProSame_api.json")
+
+# Negativo por defecto seguro (sin términos sensibles)
+SAFE_NEGATIVE_PROMPT = (
+    "overexposed, static, motion blur, artifacts, subtitles, style drift, worst quality, "
+    "low quality, jpeg artifacts, ugly, incomplete, extra fingers, poorly drawn hands, "
+    "poorly drawn faces, deformed, disfigured, fused fingers, messy background"
+)
+
+# ------------------------------------------------------------
+# Utilidades
+# ------------------------------------------------------------
 def to_nearest_multiple_of_16(value):
-    """주어진 값을 가장 가까운 16의 배수로 보정, 최소 16 보장"""
+    """
+    Redondea al múltiplo de 16 más cercano. Mínimo 16.
+    """
     try:
         numeric_value = float(value)
     except Exception:
-        raise Exception(f"width/height 값이 숫자가 아닙니다: {value}")
+        raise Exception(f"width/height debe ser numérico: {value}")
     adjusted = int(round(numeric_value / 16.0) * 16)
     if adjusted < 16:
         adjusted = 16
     return adjusted
+
+
 def process_input(input_data, temp_dir, output_filename, input_type):
-    """입력 데이터를 처리하여 파일 경로를 반환하는 함수"""
+    """
+    Procesa entradas (path/url/base64) y devuelve ruta local al archivo.
+    """
     if input_type == "path":
-        # 경로인 경우 그대로 반환
-        logger.info(f"📁 경로 입력 처리: {input_data}")
+        logger.info(f"📁 Entrada por ruta: {input_data}")
         return input_data
     elif input_type == "url":
-        # URL인 경우 다운로드
-        logger.info(f"🌐 URL 입력 처리: {input_data}")
+        logger.info(f"🌐 Entrada por URL: {input_data}")
         os.makedirs(temp_dir, exist_ok=True)
         file_path = os.path.abspath(os.path.join(temp_dir, output_filename))
         return download_file_from_url(input_data, file_path)
     elif input_type == "base64":
-        # Base64인 경우 디코딩하여 저장
-        logger.info(f"🔢 Base64 입력 처리")
+        logger.info("🔢 Entrada en Base64")
         return save_base64_to_file(input_data, temp_dir, output_filename)
     else:
-        raise Exception(f"지원하지 않는 입력 타입: {input_type}")
+        raise Exception(f"Tipo de entrada no soportado: {input_type}")
 
-        
+
 def download_file_from_url(url, output_path):
-    """URL에서 파일을 다운로드하는 함수"""
+    """Descarga un archivo desde URL usando wget."""
     try:
-        # wget을 사용하여 파일 다운로드
-        result = subprocess.run([
-            'wget', '-O', output_path, '--no-verbose', url
-        ], capture_output=True, text=True)
-        
+        result = subprocess.run(
+            ['wget', '-O', output_path, '--no-verbose', url],
+            capture_output=True, text=True
+        )
         if result.returncode == 0:
-            logger.info(f"✅ URL에서 파일을 성공적으로 다운로드했습니다: {url} -> {output_path}")
+            logger.info(f"✅ Descarga exitosa: {url} -> {output_path}")
             return output_path
         else:
-            logger.error(f"❌ wget 다운로드 실패: {result.stderr}")
-            raise Exception(f"URL 다운로드 실패: {result.stderr}")
+            logger.error(f"❌ Error wget: {result.stderr}")
+            raise Exception(f"Fallo al descargar URL: {result.stderr}")
     except subprocess.TimeoutExpired:
-        logger.error("❌ 다운로드 시간 초과")
-        raise Exception("다운로드 시간 초과")
+        logger.error("❌ Descarga: tiempo excedido")
+        raise Exception("Descarga: tiempo excedido")
     except Exception as e:
-        logger.error(f"❌ 다운로드 중 오류 발생: {e}")
-        raise Exception(f"다운로드 중 오류 발생: {e}")
+        logger.error(f"❌ Error en descarga: {e}")
+        raise Exception(f"Error en descarga: {e}")
 
 
 def save_base64_to_file(base64_data, temp_dir, output_filename):
-    """Base64 데이터를 파일로 저장하는 함수"""
+    """Guarda datos Base64 en archivo."""
     try:
-        # Base64 문자열 디코딩
         decoded_data = base64.b64decode(base64_data)
-        
-        # 디렉토리가 존재하지 않으면 생성
         os.makedirs(temp_dir, exist_ok=True)
-        
-        # 파일로 저장
         file_path = os.path.abspath(os.path.join(temp_dir, output_filename))
         with open(file_path, 'wb') as f:
             f.write(decoded_data)
-        
-        logger.info(f"✅ Base64 입력을 '{file_path}' 파일로 저장했습니다.")
+        logger.info(f"✅ Base64 guardado en '{file_path}'.")
         return file_path
     except (binascii.Error, ValueError) as e:
-        logger.error(f"❌ Base64 디코딩 실패: {e}")
-        raise Exception(f"Base64 디코딩 실패: {e}")
-    
+        logger.error(f"❌ Base64 decode falló: {e}")
+        raise Exception(f"Base64 decode falló: {e}")
+
+
+# ------------------------------------------------------------
+# ComfyUI helpers
+# ------------------------------------------------------------
 def queue_prompt(prompt):
     url = f"http://{server_address}:8188/prompt"
     logger.info(f"Queueing prompt to: {url}")
@@ -98,13 +118,19 @@ def queue_prompt(prompt):
     req = urllib.request.Request(url, data=data)
     return json.loads(urllib.request.urlopen(req).read())
 
+
 def get_image(filename, subfolder, folder_type):
+    """
+    Descarga bytes de un artefacto (imagen o video) expuesto por /view.
+    folder_type suele ser 'output' para salidas.
+    """
     url = f"http://{server_address}:8188/view"
-    logger.info(f"Getting image from: {url}")
+    logger.info(f"Getting artifact from: {url}")
     data = {"filename": filename, "subfolder": subfolder, "type": folder_type}
     url_values = urllib.parse.urlencode(data)
     with urllib.request.urlopen(f"{url}?{url_values}") as response:
         return response.read()
+
 
 def get_history(prompt_id):
     url = f"http://{server_address}:8188/history/{prompt_id}"
@@ -112,9 +138,15 @@ def get_history(prompt_id):
     with urllib.request.urlopen(url) as response:
         return json.loads(response.read())
 
+
 def get_videos(ws, prompt):
+    """
+    Envía el prompt por WebSocket y recolecta salidas en historia.
+    Ahora soporta 'gifs' y 'videos' (VHS_VideoCombine).
+    """
     prompt_id = queue_prompt(prompt)['prompt_id']
     output_videos = {}
+
     while True:
         out = ws.recv()
         if isinstance(out, str):
@@ -130,182 +162,175 @@ def get_videos(ws, prompt):
     for node_id in history['outputs']:
         node_output = history['outputs'][node_id]
         videos_output = []
+
+        # GIFs escritos a disco (fullpath)
         if 'gifs' in node_output:
             for video in node_output['gifs']:
-                # fullpath를 이용하여 직접 파일을 읽고 base64로 인코딩
                 with open(video['fullpath'], 'rb') as f:
                     video_data = base64.b64encode(f.read()).decode('utf-8')
                 videos_output.append(video_data)
-        output_videos[node_id] = videos_output
+
+        # Videos expuestos vía /view
+        if 'videos' in node_output:
+            for v in node_output['videos']:
+                bytes_data = get_image(
+                    v.get('filename', ''),
+                    v.get('subfolder', ''),
+                    v.get('type', 'output')
+                )
+                video_data = base64.b64encode(bytes_data).decode('utf-8')
+                videos_output.append(video_data)
+
+        if videos_output:
+            output_videos[node_id] = videos_output
 
     return output_videos
 
+
 def load_workflow(workflow_path):
-    """워크플로우 파일을 로드하는 함수"""
-    # 상대 경로인 경우 현재 파일 기준으로 절대 경로 변환
+    """Carga un archivo de workflow JSON."""
     if not os.path.isabs(workflow_path):
         current_dir = os.path.dirname(os.path.abspath(__file__))
         workflow_path = os.path.join(current_dir, workflow_path)
     with open(workflow_path, 'r', encoding='utf-8') as file:
         return json.load(file)
 
+
 def get_next_available_node_id(prompt, start_id=1000):
-    """사용 가능한 다음 노드 ID를 찾는 함수"""
+    """Busca el siguiente node_id disponible (no usado) como string."""
     node_id = start_id
     while str(node_id) in prompt:
         node_id += 1
     return str(node_id)
 
+
 def count_user_loras(lora_pairs):
     """
-    사용자 LoRA 개수를 계산하는 함수 (lightx2v_4steps_lora 제외)
-    
-    Args:
-        lora_pairs: LoRA 페어 리스트
-    
-    Returns:
-        lightx2v_4steps_lora를 제외한 LoRA 개수
+    Cuenta LoRAs del usuario excluyendo 'lightx2v_4steps_lora'.
     """
     if not lora_pairs:
         return 0
-    
     count = 0
     for lora_pair in lora_pairs:
         high = lora_pair.get("high", "")
         low = lora_pair.get("low", "")
-        
-        # lightx2v_4steps_lora가 아닌 경우만 카운트
         if high and "lightx2v_4steps_lora" not in high:
             count += 1
         elif low and "lightx2v_4steps_lora" not in low:
             count += 1
         elif high and low and "lightx2v_4steps_lora" not in high and "lightx2v_4steps_lora" not in low:
             count += 1
-    
     return count
+
 
 def filter_user_loras(lora_pairs):
     """
-    lightx2v_4steps_lora를 제외한 사용자 LoRA만 필터링
-    
-    Args:
-        lora_pairs: LoRA 페어 리스트
-    
-    Returns:
-        lightx2v_4steps_lora를 제외한 LoRA 페어 리스트
+    Devuelve solo LoRAs de usuario (excluye 'lightx2v_4steps_lora').
     """
     if not lora_pairs:
         return []
-    
     filtered = []
     for lora_pair in lora_pairs:
         high = lora_pair.get("high", "")
         low = lora_pair.get("low", "")
-        
-        # lightx2v_4steps_lora가 포함된 경우 제외
         if high and "lightx2v_4steps_lora" in high:
             continue
         if low and "lightx2v_4steps_lora" in low:
             continue
-        
         filtered.append(lora_pair)
-    
     return filtered
+
 
 def apply_loras_to_workflow(prompt, lora_pairs, is_flf2v, workflow_file):
     """
-    워크플로우에 LoRA 설정을 적용하는 함수
-    각 워크플로우 파일에는 이미 LoRA 노드가 설정되어 있으므로, 
-    해당 노드의 lora_name과 strength_model만 업데이트
-    
-    Args:
-        prompt: 워크플로우 딕셔너리
-        lora_pairs: LoRA 페어 리스트 (lightx2v 제외)
-        is_flf2v: FLF2V 워크플로우 여부
-        workflow_file: 워크플로우 파일 경로 (노드 ID 매핑을 위해 사용)
+    Aplica LoRAs a workflows 'wan22_*' actualizando 'lora_name' y 'strength_model'
+    en los nodos mapeados. No se usa para el workflow SVI ProSame.
     """
     if not lora_pairs:
         return
-    
-    # 각 workflow 파일별 사용자 LoRA 노드 ID 매핑 (HIGH, LOW 순서)
-    # 체인 구조: 
-    # HIGH: UNETLoader(230) -> lightx2v(283) -> 사용자LoRA(282) -> 사용자LoRA(339) -> 사용자LoRA(340) -> 사용자LoRA(341) -> TorchCompile(391)
-    # LOW: UNETLoader(235) -> lightx2v(284) -> 사용자LoRA(336) -> 사용자LoRA(285) -> 사용자LoRA(286) -> 사용자LoRA(337) -> TorchCompile(390)
+
     lora_node_mapping = {
         "workflow/wan22_nolora.json": {
             "high": [],
             "low": []
         },
         "workflow/wan22_1lora.json": {
-            "high": ["282"],  # lightx2v(283) 다음 첫 번째 사용자 LoRA
-            "low": ["336"]   # lightx2v(284) 다음 첫 번째 사용자 LoRA
+            "high": ["282"],
+            "low": ["336"]
         },
         "workflow/wan22_2lora.json": {
-            "high": ["282", "339"],  # lightx2v(283) -> 282 -> 339
-            "low": ["336", "285"]    # lightx2v(284) -> 336 -> 285
+            "high": ["282", "339"],
+            "low": ["336", "285"]
         },
         "workflow/wan22_3lora.json": {
-            "high": ["282", "339", "340"],  # lightx2v(283) -> 282 -> 339 -> 340
-            "low": ["336", "285", "286"]    # lightx2v(284) -> 336 -> 285 -> 286
+            "high": ["282", "339", "340"],
+            "low": ["336", "285", "286"]
         },
         "workflow/wan22_4lora.json": {
-            "high": ["282", "339", "340", "341"],  # lightx2v(283) -> 282 -> 339 -> 340 -> 341
-            "low": ["336", "285", "286", "337"]    # lightx2v(284) -> 336 -> 285 -> 286 -> 337
+            "high": ["282", "339", "340", "341"],
+            "low": ["336", "285", "286", "337"]
         },
         "workflow/wan22_flf2v.json": {
-            "high": [],  # FLF2V는 별도 확인 필요
+            "high": [],
             "low": []
         }
     }
-    
-    # workflow 파일명에서 매핑 찾기
+
     workflow_key = None
     for key in lora_node_mapping.keys():
         if key in workflow_file:
             workflow_key = key
             break
-    
     if workflow_key is None:
-        logger.warning(f"워크플로우 파일 {workflow_file}에 대한 LoRA 노드 매핑을 찾을 수 없습니다.")
+        logger.warning(f"No se encontró mapeo LoRA para {workflow_file}.")
         return
-    
+
     high_user_nodes = lora_node_mapping[workflow_key]["high"]
     low_user_nodes = lora_node_mapping[workflow_key]["low"]
-    
-    logger.info(f"워크플로우: {workflow_key}")
-    logger.info(f"HIGH 사용자 LoRA 노드: {high_user_nodes}")
-    logger.info(f"LOW 사용자 LoRA 노드: {low_user_nodes}")
-    
+    logger.info(f"Workflow: {workflow_key}")
+    logger.info(f"Nodos HIGH LoRA: {high_user_nodes}")
+    logger.info(f"Nodos LOW LoRA: {low_user_nodes}")
+
     if len(high_user_nodes) < len(lora_pairs) or len(low_user_nodes) < len(lora_pairs):
-        logger.warning(f"워크플로우에 사용자 LoRA 노드가 부족합니다. 필요: HIGH={len(lora_pairs)}, LOW={len(lora_pairs)}, 발견: HIGH={len(high_user_nodes)}, LOW={len(low_user_nodes)}")
+        logger.warning(
+            "Nodos para LoRA insuficientes. "
+            f"Necesario HIGH={len(lora_pairs)}, LOW={len(lora_pairs)}; "
+            f"hallado HIGH={len(high_user_nodes)}, LOW={len(low_user_nodes)}"
+        )
         return
-    
-    # 각 lora_pair에 대해 HIGH와 LOW를 적용
+
     for i, lora_pair in enumerate(lora_pairs):
-        # HIGH LoRA 적용
         if i < len(high_user_nodes) and lora_pair.get("high"):
             high_node_id = high_user_nodes[i]
             prompt[high_node_id]["inputs"]["lora_name"] = lora_pair["high"]
             prompt[high_node_id]["inputs"]["strength_model"] = lora_pair.get("high_weight", 1.0)
-            logger.info(f"✅ HIGH LoRA {i+1} 적용: {lora_pair['high']} (강도: {lora_pair.get('high_weight', 1.0)}) -> 노드 {high_node_id}")
-        
-        # LOW LoRA 적용
+            logger.info(
+                f"✅ HIGH LoRA {i+1}: {lora_pair['high']} "
+                f"(w={lora_pair.get('high_weight', 1.0)}) -> nodo {high_node_id}"
+            )
         if i < len(low_user_nodes) and lora_pair.get("low"):
             low_node_id = low_user_nodes[i]
             prompt[low_node_id]["inputs"]["lora_name"] = lora_pair["low"]
             prompt[low_node_id]["inputs"]["strength_model"] = lora_pair.get("low_weight", 1.0)
-            logger.info(f"✅ LOW LoRA {i+1} 적용: {lora_pair['low']} (강도: {lora_pair.get('low_weight', 1.0)}) -> 노드 {low_node_id}")
+            logger.info(
+                f"✅ LOW LoRA  {i+1}: {lora_pair['low']} "
+                f"(w={lora_pair.get('low_weight', 1.0)}) -> nodo {low_node_id}"
+            )
 
+
+# ------------------------------------------------------------
+# Handler
+# ------------------------------------------------------------
 def handler(job):
     job_input = job.get("input", {})
-
     logger.info(f"Received job input: {job_input}")
     task_id = f"task_{uuid.uuid4()}"
 
-    # 이미지 입력 처리 (image, image_path, image_url, image_base64 중 하나만 사용)
+    # --------------------------------------------------------
+    # Imagen de entrada: soporta image / image_path / image_url / image_base64
+    # --------------------------------------------------------
     image_path = None
     if "image" in job_input:
-        # image 파라미터가 제공된 경우, 자동으로 타입 감지
         image_data = job_input["image"]
         if isinstance(image_data, str):
             if image_data.startswith("http://") or image_data.startswith("https://"):
@@ -313,10 +338,9 @@ def handler(job):
             elif os.path.exists(image_data) or image_data.startswith("/"):
                 image_path = process_input(image_data, task_id, "input_image.jpg", "path")
             else:
-                # Base64로 간주
                 image_path = process_input(image_data, task_id, "input_image.jpg", "base64")
         else:
-            raise Exception("image 파라미터는 문자열이어야 합니다.")
+            raise Exception("El parámetro 'image' debe ser string (url, path o base64).")
     elif "image_path" in job_input:
         image_path = process_input(job_input["image_path"], task_id, "input_image.jpg", "path")
     elif "image_url" in job_input:
@@ -324,14 +348,14 @@ def handler(job):
     elif "image_base64" in job_input:
         image_path = process_input(job_input["image_base64"], task_id, "input_image.jpg", "base64")
     else:
-        # 기본값 사용
         image_path = "/example_image.png"
-        logger.info("기본 이미지 파일을 사용합니다: /example_image.png")
+        logger.info("Usando imagen por defecto: /example_image.png")
 
-    # 엔드 이미지 입력 처리 (end_image, end_image_path, end_image_url, end_image_base64 중 하나만 사용)
+    # --------------------------------------------------------
+    # End image (para FLF2V) - opcional
+    # --------------------------------------------------------
     end_image_path_local = None
     if "end_image" in job_input:
-        # end_image 파라미터가 제공된 경우, 자동으로 타입 감지
         end_image_data = job_input["end_image"]
         if isinstance(end_image_data, str):
             if end_image_data.startswith("http://") or end_image_data.startswith("https://"):
@@ -339,133 +363,196 @@ def handler(job):
             elif os.path.exists(end_image_data) or end_image_data.startswith("/"):
                 end_image_path_local = process_input(end_image_data, task_id, "end_image.jpg", "path")
             else:
-                # Base64로 간주
                 end_image_path_local = process_input(end_image_data, task_id, "end_image.jpg", "base64")
         else:
-            raise Exception("end_image 파라미터는 문자열이어야 합니다.")
+            raise Exception("El parámetro 'end_image' debe ser string.")
     elif "end_image_path" in job_input:
         end_image_path_local = process_input(job_input["end_image_path"], task_id, "end_image.jpg", "path")
     elif "end_image_url" in job_input:
         end_image_path_local = process_input(job_input["end_image_url"], task_id, "end_image.jpg", "url")
     elif "end_image_base64" in job_input:
         end_image_path_local = process_input(job_input["end_image_base64"], task_id, "end_image.jpg", "base64")
-    
-    # 워크플로우 파일 선택 (end_image_*가 있으면 FLF2V 워크플로 사용)
+
+    # ¿Usamos FLF2V?
     is_flf2v = end_image_path_local is not None
-    
-    # LoRA 개수 계산 (lightx2v_4steps_lora 제외)
+
+    # --------------------------------------------------------
+    # LoRAs de entrada (para workflows wan22_*)
+    # --------------------------------------------------------
     lora_pairs = job_input.get("lora_pairs", [])
     user_lora_pairs = filter_user_loras(lora_pairs)
     lora_count = count_user_loras(lora_pairs)
-    
-    logger.info(f"사용자 LoRA 개수 (lightx2v 제외): {lora_count}")
-    
-    # LoRA 개수에 따라 워크플로우 파일 선택
-    if is_flf2v:
-        # FLF2V 워크플로우는 현재 하나만 있음
-        workflow_file = "workflow/wan22_flf2v.json"
-        logger.info(f"Using FLF2V workflow: {workflow_file}")
-    else:
-        # 단일 이미지 워크플로우
-        if lora_count == 0:
-            workflow_file = "workflow/wan22_nolora.json"
-        elif lora_count == 1:
-            workflow_file = "workflow/wan22_1lora.json"
-        elif lora_count == 2:
-            workflow_file = "workflow/wan22_2lora.json"
-        elif lora_count == 3:
-            workflow_file = "workflow/wan22_3lora.json"
-        elif lora_count >= 4:
-            workflow_file = "workflow/wan22_4lora.json"
-            if lora_count > 4:
-                logger.warning(f"LoRA 개수가 {lora_count}개입니다. 최대 4개까지만 지원됩니다. 처음 4개만 사용합니다.")
-                user_lora_pairs = user_lora_pairs[:4]
-        else:
-            workflow_file = "workflow/wan22_nolora.json"
-        
-        logger.info(f"Using single image workflow: {workflow_file} (LoRA 개수: {lora_count})")
-    
-    prompt = load_workflow(workflow_file)
-    
+    logger.info(f"LoRAs de usuario (excluyendo 'lightx2v'): {lora_count}")
+
+    # --------------------------------------------------------
+    # Parámetros comunes
+    # --------------------------------------------------------
     length = job_input.get("length", 81)
-    
-    # 해상도(폭/높이) 16배수 보정
     original_width = job_input.get("width", 480)
     original_height = job_input.get("height", 720)
     adjusted_width = to_nearest_multiple_of_16(original_width)
     adjusted_height = to_nearest_multiple_of_16(original_height)
     if adjusted_width != original_width:
-        logger.info(f"Width adjusted to nearest multiple of 16: {original_width} -> {adjusted_width}")
+        logger.info(f"Width ajustado a múltiplo de 16: {original_width} -> {adjusted_width}")
     if adjusted_height != original_height:
-        logger.info(f"Height adjusted to nearest multiple of 16: {original_height} -> {adjusted_height}")
+        logger.info(f"Height ajustado a múltiplo de 16: {original_height} -> {adjusted_height}")
 
-    # 공통 노드 설정 (FLF2V와 단일 이미지 워크플로우 모두 동일)
-    # 이미지 로드: 노드 260
-    prompt["260"]["inputs"]["image"] = image_path
-    # Positive Prompt: 노드 6 (노드 246을 통해 입력)
-    prompt["246"]["inputs"]["value"] = job_input.get("prompt", "")
-    # Negative Prompt: 노드 7 (노드 247을 통해 입력)
-    negative_prompt = job_input.get("negative_prompt", "bright tones, overexposed, static, blurred details, subtitles, style, works, paintings, images, static, overall gray, worst quality, low quality, JPEG compression residue, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn faces, deformed, disfigured, misshapen limbs, fused fingers, still picture, messy background, three legs, many people in the background, walking backwards")
-    prompt["247"]["inputs"]["value"] = negative_prompt
-    # Width: 노드 849
-    prompt["849"]["inputs"]["value"] = adjusted_width
-    # Height: 노드 848
-    prompt["848"]["inputs"]["value"] = adjusted_height
-    # Length: 노드 846
-    prompt["846"]["inputs"]["value"] = length
-    
-    # FLF2V 전용 설정
-    if is_flf2v:
-        # End 이미지: 노드 483
-        prompt["483"]["inputs"]["image"] = end_image_path_local
-    
-    # LoRA 설정 적용 (lightx2v 제외한 사용자 LoRA만)
-    if user_lora_pairs:
-        apply_loras_to_workflow(prompt, user_lora_pairs, is_flf2v, workflow_file)
+    # --------------------------------------------------------
+    # Selección de workflow
+    # --------------------------------------------------------
+    use_svi_prosame = str(job_input.get("workflow", "")).lower() in {"svi_prosame", "svi", "prosame"} \
+                      or bool(job_input.get("use_svi_prosame", False))
 
+    if use_svi_prosame:
+        workflow_file = WORKFLOW_SVI_PROSAME
+        logger.info(f"Using SVI ProSame workflow: {workflow_file}")
+    else:
+        if is_flf2v:
+            workflow_file = "workflow/wan22_flf2v.json"
+            logger.info(f"Using FLF2V workflow: {workflow_file}")
+        else:
+            if lora_count == 0:
+                workflow_file = "workflow/wan22_nolora.json"
+            elif lora_count == 1:
+                workflow_file = "workflow/wan22_1lora.json"
+            elif lora_count == 2:
+                workflow_file = "workflow/wan22_2lora.json"
+            elif lora_count == 3:
+                workflow_file = "workflow/wan22_3lora.json"
+            elif lora_count >= 4:
+                workflow_file = "workflow/wan22_4lora.json"
+                if lora_count > 4:
+                    logger.warning(
+                        f"Se recibieron {lora_count} LoRAs; se soportan hasta 4. "
+                        "Usaré solo las primeras 4."
+                    )
+                    user_lora_pairs = user_lora_pairs[:4]
+            else:
+                workflow_file = "workflow/wan22_nolora.json"
+            logger.info(f"Using single image workflow: {workflow_file} (LoRAs: {lora_count})")
+
+    # --------------------------------------------------------
+    # Cargar workflow
+    # --------------------------------------------------------
+    prompt = load_workflow(workflow_file)
+
+    # --------------------------------------------------------
+    # Asignación de nodos según workflow
+    # --------------------------------------------------------
+    if use_svi_prosame:
+        # ========== Mapeo SVI ProSame ==========
+        # Imagen de entrada -> LoadImage (id 67)
+        if "67" in prompt and "inputs" in prompt["67"]:
+            prompt["67"]["inputs"]["image"] = image_path
+
+        # Resize -> ImageResizeKJv2 (id 68)
+        if "68" in prompt and "inputs" in prompt["68"]:
+            prompt["68"]["inputs"]["width"] = adjusted_width
+            prompt["68"]["inputs"]["height"] = adjusted_height
+
+        # Frames -> INTConstant (ids 780, 781, 782)
+        for frames_id in ("780", "781", "782"):
+            if frames_id in prompt and "inputs" in prompt[frames_id]:
+                prompt[frames_id]["inputs"]["value"] = length
+
+        # Prompts -> WanVideoTextEncode (ids 388, 464, 688)
+        safe_positive = job_input.get("prompt", "") or ""
+        safe_negative = job_input.get("negative_prompt", "") or SAFE_NEGATIVE_PROMPT
+        for text_id in ("388", "464", "688"):
+            if text_id in prompt and "inputs" in prompt[text_id]:
+                prompt[text_id]["inputs"]["positive_prompt"] = safe_positive
+                prompt[text_id]["inputs"]["negative_prompt"] = safe_negative
+
+        # LoRA opcional para SVI: selectores múltiples (381=HIGH, 382=LOW)
+        high_lora = job_input.get("high_lora_name")
+        low_lora = job_input.get("low_lora_name")
+        high_w = float(job_input.get("high_lora_strength", 1.0))
+        low_w = float(job_input.get("low_lora_strength", 1.0))
+        if high_lora and "381" in prompt:
+            prompt["381"]["inputs"]["lora_1"] = high_lora
+            prompt["381"]["inputs"]["strength_1"] = high_w
+        if low_lora and "382" in prompt:
+            prompt["382"]["inputs"]["lora_1"] = low_lora
+            prompt["382"]["inputs"]["strength_1"] = low_w
+
+        # (No aplicamos apply_loras_to_workflow en SVI ProSame)
+    else:
+        # ========== Mapeo para workflows wan22_* ==========
+        # Imagen
+        if "260" in prompt and "inputs" in prompt["260"]:
+            prompt["260"]["inputs"]["image"] = image_path
+
+        # Prompt positivo
+        if "246" in prompt and "inputs" in prompt["246"]:
+            prompt["246"]["inputs"]["value"] = job_input.get("prompt", "")
+
+        # Prompt negativo (seguro por defecto)
+        negative_prompt = job_input.get("negative_prompt", SAFE_NEGATIVE_PROMPT)
+        if "247" in prompt and "inputs" in prompt["247"]:
+            prompt["247"]["inputs"]["value"] = negative_prompt
+
+        # Dimensiones
+        if "849" in prompt and "inputs" in prompt["849"]:
+            prompt["849"]["inputs"]["value"] = adjusted_width
+        if "848" in prompt and "inputs" in prompt["848"]:
+            prompt["848"]["inputs"]["value"] = adjusted_height
+
+        # Frames
+        if "846" in prompt and "inputs" in prompt["846"]:
+            prompt["846"]["inputs"]["value"] = length
+
+        # End image (solo FLF2V)
+        if is_flf2v and "483" in prompt and "inputs" in prompt["483"]:
+            prompt["483"]["inputs"]["image"] = end_image_path_local
+
+        # LoRAs (wan22_*)
+        if user_lora_pairs:
+            apply_loras_to_workflow(prompt, user_lora_pairs, is_flf2v, workflow_file)
+
+    # --------------------------------------------------------
+    # Conexión y ejecución
+    # --------------------------------------------------------
     ws_url = f"ws://{server_address}:8188/ws?clientId={client_id}"
     logger.info(f"Connecting to WebSocket: {ws_url}")
-    
-    # 먼저 HTTP 연결이 가능한지 확인
+
+    # Comprobación previa de HTTP (hasta 3 min)
     http_url = f"http://{server_address}:8188/"
     logger.info(f"Checking HTTP connection to: {http_url}")
-    
-    # HTTP 연결 확인 (최대 1분)
-    max_http_attempts = 180
+    max_http_attempts = 180  # ~3 minutos (1s entre intentos)
     for http_attempt in range(max_http_attempts):
         try:
-            import urllib.request
-            response = urllib.request.urlopen(http_url, timeout=5)
-            logger.info(f"HTTP 연결 성공 (시도 {http_attempt+1})")
+            urllib.request.urlopen(http_url, timeout=5)
+            logger.info(f"HTTP OK (intento {http_attempt+1})")
             break
         except Exception as e:
-            logger.warning(f"HTTP 연결 실패 (시도 {http_attempt+1}/{max_http_attempts}): {e}")
+            logger.warning(f"HTTP fallo ({http_attempt+1}/{max_http_attempts}): {e}")
             if http_attempt == max_http_attempts - 1:
-                raise Exception("ComfyUI 서버에 연결할 수 없습니다. 서버가 실행 중인지 확인하세요.")
+                raise Exception("No es posible conectar con ComfyUI. Verifica que el servidor esté activo.")
             time.sleep(1)
-    
+
     ws = websocket.WebSocket()
-    # 웹소켓 연결 시도 (최대 3분)
-    max_attempts = int(180/5)  # 3분 (1초에 한 번씩 시도)
+    max_attempts = int(180 / 5)  # ~3 minutos, un intento cada 5s
     for attempt in range(max_attempts):
-        import time
         try:
             ws.connect(ws_url)
-            logger.info(f"웹소켓 연결 성공 (시도 {attempt+1})")
+            logger.info(f"WebSocket conectado (intento {attempt+1})")
             break
         except Exception as e:
-            logger.warning(f"웹소켓 연결 실패 (시도 {attempt+1}/{max_attempts}): {e}")
+            logger.warning(f"WebSocket fallo ({attempt+1}/{max_attempts}): {e}")
             if attempt == max_attempts - 1:
-                raise Exception("웹소켓 연결 시간 초과 (3분)")
+                raise Exception("Tiempo de conexión WebSocket excedido (~3 min).")
             time.sleep(5)
+
     videos = get_videos(ws, prompt)
     ws.close()
 
-    # 이미지가 없는 경우 처리
+    # Devuelve el primer video encontrado (Base64)
     for node_id in videos:
         if videos[node_id]:
             return {"video": videos[node_id][0]}
-    
-    return {"error": "비디오를를 찾을 수 없습니다."}
 
+    return {"error": "No se encontró video en la salida."}
+
+
+# Iniciar servidor Runpod
 runpod.serverless.start({"handler": handler})
