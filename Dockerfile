@@ -7,6 +7,14 @@ RUN pip install runpod websocket-client
 
 WORKDIR /
 
+
+# Antes de clonar, ajusta git
+RUN git config --global http.version HTTP/1.1 \
+ && git config --global http.lowSpeedLimit 1 \
+ && git config --global http.lowSpeedTime 600 \
+ && git config --global http.postBuffer 524288000
+
+
 RUN git clone https://github.com/comfyanonymous/ComfyUI.git && \
     cd /ComfyUI && \
     pip install -r requirements.txt
