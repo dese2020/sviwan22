@@ -28,7 +28,7 @@ else
   # MODO POD: arranca ComfyUI y mantiene el contenedor vivo
   # ------------------------------------------------------
   echo "[pod] Iniciando ComfyUI..."
-  python /ComfyUI/main.py --listen "${COMFY_HOST}" --port "${COMFY_PORT}" ${COMFY_ARGS} --no-auto-launch &
+  python /ComfyUI/main.py --listen "${COMFY_HOST}" --port "${COMFY_PORT}" ${COMFY_ARGS} --use-sage-attention &
 
   COMFY_PID=$!
   echo "[pod] ComfyUI PID: ${COMFY_PID}"

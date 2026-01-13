@@ -39,5 +39,6 @@ comfyui:
   upscale_models:
     models/upscale_models/
 
-  vae:
+  vae: |
     models/vae/
+    /runpod-volume/vae/
