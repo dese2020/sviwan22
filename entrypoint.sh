@@ -21,14 +21,14 @@ if [[ "${RUN_MODE}" == "serverless" ]]; then
   # ------------------------------------------------------
   echo "[serverless] Iniciando handler.py en foreground..."
   # Ajusta la ruta si tu handler está en otra carpeta:
-  exec python /workspace/handler.py
+  exec python handler.py
 
 else
   # ------------------------------------------------------
   # MODO POD: arranca ComfyUI y mantiene el contenedor vivo
   # ------------------------------------------------------
   echo "[pod] Iniciando ComfyUI..."
-  python /ComfyUI/main.py --listen "${COMFY_HOST}" --port "${COMFY_PORT}" ${COMFY_ARGS} --use-sage-attention &
+  python /ComfyUI/main.py --listen "${COMFY_HOST}" --port "${COMFY_PORT}" ${COMFY_ARGS}  &
 
   COMFY_PID=$!
   echo "[pod] ComfyUI PID: ${COMFY_PID}"
@@ -62,7 +62,7 @@ else
   # -------------------------------
   if [[ "${START_HANDLER_IN_POD:-false}" == "true" ]]; then
     echo "[pod] Iniciando handler.py en background..."
-    python /workspace/handler.py &
+    python handler.py &
     HANDLER_PID=$!
     echo "[pod] handler.py PID: ${HANDLER_PID}"
   fi
