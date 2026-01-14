@@ -1,0 +1,944 @@
+{
+  "1": {
+    "inputs": {
+      "text": "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Codificar Texto CLIP (Prompt)"
+    }
+  },
+  "2": {
+    "inputs": {
+      "clip_name": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+      "type": "wan",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Cargar CLIP"
+    }
+  },
+  "3": {
+    "inputs": {
+      "vae_name": "wan_2.1_vae.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "Cargar VAE"
+    }
+  },
+  "10": {
+    "inputs": {
+      "image": "example.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "Cargar Imagen"
+    }
+  },
+  "18": {
+    "inputs": {
+      "lora_name": "wan2.2_i2v_A14b_high_noise_lora_rank64_lightx2v_4step_1022.safetensors",
+      "strength_model": 1,
+      "model": [
+        "20",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "CargadorLoRAModeloSolo"
+    }
+  },
+  "20": {
+    "inputs": {
+      "unet_name": "wan2.2_i2v_high_noise_14B_fp16.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Cargar Modelo de Difusión"
+    }
+  },
+  "21": {
+    "inputs": {
+      "text": "She is talking to the camera, her hands are moving as she is focused on conveying a profound message",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Codificar Texto CLIP (Prompt)"
+    }
+  },
+  "60": {
+    "inputs": {
+      "shift": 5,
+      "model": [
+        "515",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingSD3",
+    "_meta": {
+      "title": "MuestreoDeModeloSD3"
+    }
+  },
+  "159": {
+    "inputs": {
+      "value": 480
+    },
+    "class_type": "PrimitiveInt",
+    "_meta": {
+      "title": "Width"
+    }
+  },
+  "160": {
+    "inputs": {
+      "value": 832
+    },
+    "class_type": "PrimitiveInt",
+    "_meta": {
+      "title": "Height"
+    }
+  },
+  "259": {
+    "inputs": {
+      "value": 81
+    },
+    "class_type": "easy int",
+    "_meta": {
+      "title": "Total Frames Per Section"
+    }
+  },
+  "262": {
+    "inputs": {
+      "value": 16
+    },
+    "class_type": "PrimitiveInt",
+    "_meta": {
+      "title": "FPS"
+    }
+  },
+  "402": {
+    "inputs": {
+      "shift": 5,
+      "model": [
+        "514",
+        0
+      ]
+    },
+    "class_type": "ModelSamplingSD3",
+    "_meta": {
+      "title": "MuestreoDeModeloSD3"
+    }
+  },
+  "404": {
+    "inputs": {
+      "lora_name": "wan2.2_i2v_A14b_low_noise_lora_rank64_lightx2v_4step_1022.safetensors",
+      "strength_model": 1,
+      "model": [
+        "405",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "CargadorLoRAModeloSolo"
+    }
+  },
+  "405": {
+    "inputs": {
+      "unet_name": "wan2.2_i2v_low_noise_14B_fp16.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "Cargar Modelo de Difusión"
+    }
+  },
+  "408": {
+    "inputs": {
+      "lora_name": "SVI_v2_PRO_Wan2.2-I2V-A14B_LOW_lora_rank_128_fp16.safetensors",
+      "strength_model": 1,
+      "model": [
+        "404",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "CargadorLoRAModeloSolo"
+    }
+  },
+  "409": {
+    "inputs": {
+      "lora_name": "SVI_v2_PRO_Wan2.2-I2V-A14B_HIGH_lora_rank_128_fp16.safetensors",
+      "strength_model": 1,
+      "model": [
+        "18",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "CargadorLoRAModeloSolo"
+    }
+  },
+  "444": {
+    "inputs": {
+      "frame_rate": 16,
+      "loop_count": 0,
+      "filename_prefix": "AnimateDiff",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false,
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "504",
+        2
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
+  "445": {
+    "inputs": {
+      "overlap": 5,
+      "overlap_side": "source",
+      "overlap_mode": "linear_blend",
+      "source_images": [
+        "460",
+        2
+      ],
+      "new_images": [
+        "492:459",
+        0
+      ]
+    },
+    "class_type": "ImageBatchExtendWithOverlap",
+    "_meta": {
+      "title": "Image Batch Extend With Overlap"
+    }
+  },
+  "460": {
+    "inputs": {
+      "overlap": 5,
+      "overlap_side": "source",
+      "overlap_mode": "linear_blend",
+      "source_images": [
+        "485:58",
+        0
+      ],
+      "new_images": [
+        "486:439",
+        0
+      ]
+    },
+    "class_type": "ImageBatchExtendWithOverlap",
+    "_meta": {
+      "title": "Image Batch Extend With Overlap"
+    }
+  },
+  "464": {
+    "inputs": {
+      "text": "She stands up, the camera pulls back, her full body is shown, she is wearing high waisted gray wash denims",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Codificar Texto CLIP (Prompt)"
+    }
+  },
+  "465": {
+    "inputs": {
+      "text": "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Codificar Texto CLIP (Prompt)"
+    }
+  },
+  "469": {
+    "inputs": {
+      "text": "She walks towards the viewer confidently as the camera pull back to reveal her face she is smiling",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Codificar Texto CLIP (Prompt)"
+    }
+  },
+  "471": {
+    "inputs": {
+      "text": "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Codificar Texto CLIP (Prompt)"
+    }
+  },
+  "501": {
+    "inputs": {
+      "text": "She walks towards the viewer confidently, she stops and turns to her side to show her profile and a hint of her large buttocks",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Codificar Texto CLIP (Prompt)"
+    }
+  },
+  "502": {
+    "inputs": {
+      "text": "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走",
+      "clip": [
+        "2",
+        0
+      ]
+    },
+    "class_type": "CLIPTextEncode",
+    "_meta": {
+      "title": "Codificar Texto CLIP (Prompt)"
+    }
+  },
+  "504": {
+    "inputs": {
+      "overlap": 5,
+      "overlap_side": "source",
+      "overlap_mode": "linear_blend",
+      "source_images": [
+        "445",
+        2
+      ],
+      "new_images": [
+        "511:459",
+        0
+      ]
+    },
+    "class_type": "ImageBatchExtendWithOverlap",
+    "_meta": {
+      "title": "Image Batch Extend With Overlap"
+    }
+  },
+  "512": {
+    "inputs": {
+      "lora_name": "NSFW-22-H-e8.safetensors",
+      "strength_model": 1,
+      "model": [
+        "409",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "CargadorLoRAModeloSolo"
+    }
+  },
+  "513": {
+    "inputs": {
+      "lora_name": "NSFW-22-L-e8.safetensors",
+      "strength_model": 1,
+      "model": [
+        "408",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "CargadorLoRAModeloSolo"
+    }
+  },
+  "514": {
+    "inputs": {
+      "lora_name": "WAN-2.2-I2V-BreastPlay-LOW-v2.safetensors",
+      "strength_model": 1,
+      "model": [
+        "513",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "CargadorLoRAModeloSolo"
+    }
+  },
+  "515": {
+    "inputs": {
+      "lora_name": "WAN-2.2-I2V-BreastPlay-HIGH-v2.safetensors",
+      "strength_model": 1,
+      "model": [
+        "512",
+        0
+      ]
+    },
+    "class_type": "LoraLoaderModelOnly",
+    "_meta": {
+      "title": "CargadorLoRAModeloSolo"
+    }
+  },
+  "485:58": {
+    "inputs": {
+      "samples": [
+        "485:398",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "Decodificación VAE"
+    }
+  },
+  "485:476": {
+    "inputs": {
+      "width": [
+        "159",
+        0
+      ],
+      "height": [
+        "160",
+        0
+      ],
+      "length": [
+        "259",
+        0
+      ],
+      "batch_size": 1,
+      "mode": "NORMAL",
+      "middle_frame_ratio": 0,
+      "video_frame_offset": 0,
+      "long_video_mode": "SVI",
+      "continue_frames_count": 0,
+      "high_noise_start_strength": 1,
+      "high_noise_mid_strength": 0,
+      "low_noise_start_strength": 0,
+      "low_noise_mid_strength": 0,
+      "low_noise_end_strength": 0,
+      "structural_repulsion_boost": 1,
+      "enable_middle_frame": false,
+      "positive": [
+        "21",
+        0
+      ],
+      "negative": [
+        "1",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "start_image": [
+        "10",
+        0
+      ]
+    },
+    "class_type": "WanAdvancedI2V",
+    "_meta": {
+      "title": "Wan Advanced I2V (Ultimate)"
+    }
+  },
+  "485:399": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 646285284701632,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 0,
+      "end_at_step": 3,
+      "return_with_leftover_noise": "enable",
+      "model": [
+        "60",
+        0
+      ],
+      "positive": [
+        "485:476",
+        0
+      ],
+      "negative": [
+        "485:476",
+        2
+      ],
+      "latent_image": [
+        "485:476",
+        3
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "KSampler (Avanzado)"
+    }
+  },
+  "485:398": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": 215374308721223,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 3,
+      "end_at_step": 10000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "402",
+        0
+      ],
+      "positive": [
+        "485:476",
+        0
+      ],
+      "negative": [
+        "485:476",
+        2
+      ],
+      "latent_image": [
+        "485:399",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "KSampler (Avanzado)"
+    }
+  },
+  "486:439": {
+    "inputs": {
+      "samples": [
+        "486:438",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "Decodificación VAE"
+    }
+  },
+  "486:477": {
+    "inputs": {
+      "width": [
+        "159",
+        0
+      ],
+      "height": [
+        "160",
+        0
+      ],
+      "length": [
+        "259",
+        0
+      ],
+      "batch_size": 1,
+      "mode": "NORMAL",
+      "middle_frame_ratio": 0,
+      "video_frame_offset": 0,
+      "long_video_mode": "SVI",
+      "continue_frames_count": 4,
+      "high_noise_start_strength": 1,
+      "high_noise_mid_strength": 0,
+      "low_noise_start_strength": 0,
+      "low_noise_mid_strength": 0,
+      "low_noise_end_strength": 0,
+      "structural_repulsion_boost": 1,
+      "enable_middle_frame": false,
+      "positive": [
+        "464",
+        0
+      ],
+      "negative": [
+        "465",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "start_image": [
+        "10",
+        0
+      ],
+      "prev_latent": [
+        "485:398",
+        0
+      ]
+    },
+    "class_type": "WanAdvancedI2V",
+    "_meta": {
+      "title": "Wan Advanced I2V (Ultimate)"
+    }
+  },
+  "486:436": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 1115152401888708,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 0,
+      "end_at_step": 3,
+      "return_with_leftover_noise": "enable",
+      "model": [
+        "60",
+        0
+      ],
+      "positive": [
+        "486:477",
+        0
+      ],
+      "negative": [
+        "486:477",
+        2
+      ],
+      "latent_image": [
+        "486:477",
+        3
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "KSampler (Avanzado)"
+    }
+  },
+  "486:438": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": 835064479009664,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 3,
+      "end_at_step": 10000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "402",
+        0
+      ],
+      "positive": [
+        "486:477",
+        0
+      ],
+      "negative": [
+        "486:477",
+        2
+      ],
+      "latent_image": [
+        "486:436",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "KSampler (Avanzado)"
+    }
+  },
+  "492:459": {
+    "inputs": {
+      "samples": [
+        "492:457",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "Decodificación VAE"
+    }
+  },
+  "492:478": {
+    "inputs": {
+      "width": [
+        "159",
+        0
+      ],
+      "height": [
+        "160",
+        0
+      ],
+      "length": [
+        "259",
+        0
+      ],
+      "batch_size": 1,
+      "mode": "NORMAL",
+      "middle_frame_ratio": 0,
+      "video_frame_offset": 0,
+      "long_video_mode": "SVI",
+      "continue_frames_count": 4,
+      "high_noise_start_strength": 1,
+      "high_noise_mid_strength": 0,
+      "low_noise_start_strength": 0,
+      "low_noise_mid_strength": 0,
+      "low_noise_end_strength": 0,
+      "structural_repulsion_boost": 1,
+      "enable_middle_frame": false,
+      "positive": [
+        "469",
+        0
+      ],
+      "negative": [
+        "471",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "start_image": [
+        "10",
+        0
+      ],
+      "prev_latent": [
+        "486:438",
+        0
+      ]
+    },
+    "class_type": "WanAdvancedI2V",
+    "_meta": {
+      "title": "Wan Advanced I2V (Ultimate)"
+    }
+  },
+  "492:454": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 125150042457460,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 0,
+      "end_at_step": 3,
+      "return_with_leftover_noise": "enable",
+      "model": [
+        "60",
+        0
+      ],
+      "positive": [
+        "492:478",
+        0
+      ],
+      "negative": [
+        "492:478",
+        2
+      ],
+      "latent_image": [
+        "492:478",
+        3
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "KSampler (Avanzado)"
+    }
+  },
+  "492:457": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": 759495701724550,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 3,
+      "end_at_step": 10000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "402",
+        0
+      ],
+      "positive": [
+        "492:478",
+        0
+      ],
+      "negative": [
+        "492:478",
+        2
+      ],
+      "latent_image": [
+        "492:454",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "KSampler (Avanzado)"
+    }
+  },
+  "511:459": {
+    "inputs": {
+      "samples": [
+        "511:457",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "Decodificación VAE"
+    }
+  },
+  "511:478": {
+    "inputs": {
+      "width": [
+        "159",
+        0
+      ],
+      "height": [
+        "160",
+        0
+      ],
+      "length": [
+        "259",
+        0
+      ],
+      "batch_size": 1,
+      "mode": "NORMAL",
+      "middle_frame_ratio": 0,
+      "video_frame_offset": 0,
+      "long_video_mode": "SVI",
+      "continue_frames_count": 4,
+      "high_noise_start_strength": 1,
+      "high_noise_mid_strength": 0,
+      "low_noise_start_strength": 0,
+      "low_noise_mid_strength": 0,
+      "low_noise_end_strength": 0,
+      "structural_repulsion_boost": 1,
+      "enable_middle_frame": false,
+      "positive": [
+        "501",
+        0
+      ],
+      "negative": [
+        "502",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ],
+      "start_image": [
+        "10",
+        0
+      ],
+      "prev_latent": [
+        "492:457",
+        0
+      ]
+    },
+    "class_type": "WanAdvancedI2V",
+    "_meta": {
+      "title": "Wan Advanced I2V (Ultimate)"
+    }
+  },
+  "511:454": {
+    "inputs": {
+      "add_noise": "enable",
+      "noise_seed": 169865205149912,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 0,
+      "end_at_step": 3,
+      "return_with_leftover_noise": "enable",
+      "model": [
+        "60",
+        0
+      ],
+      "positive": [
+        "511:478",
+        0
+      ],
+      "negative": [
+        "511:478",
+        2
+      ],
+      "latent_image": [
+        "511:478",
+        3
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "KSampler (Avanzado)"
+    }
+  },
+  "511:457": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": 283868999342645,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 3,
+      "end_at_step": 10000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "402",
+        0
+      ],
+      "positive": [
+        "511:478",
+        0
+      ],
+      "negative": [
+        "511:478",
+        2
+      ],
+      "latent_image": [
+        "511:454",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "KSampler (Avanzado)"
+    }
+  }
+}
