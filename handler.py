@@ -473,4 +473,3 @@ def handler(job):
 if __name__ == "__main__":
     # Recomendado por RunPod: mantener el loop del handler vivo
     runpod.serverless.start({"handler": handler})
-``
