@@ -64,8 +64,9 @@ RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/
 #RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/loras/wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors -O /ComfyUI/models/loras/wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors
 #RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/loras/wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors -O /ComfyUI/models/loras/wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors
 #RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/diffusion_models/wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors -O /ComfyUI/models/diffusion_models/wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors
-RUN curl -L -H "Authorization: Bearer 93105849d4db166b5aa142fa4d6229e6" "https://civitai.com/api/download/models/2584698?type=Model&format=GGUF&size=full&fp=fp8" -o /ComfyUI/models/diffusion_models/modelo_hig.gguf
-RUN curl -L -H "Authorization: Bearer 93105849d4db166b5aa142fa4d6229e6" "https://civitai.com/api/download/models/2584707?type=Model&format=GGUF&size=full&fp=fp8" -o /ComfyUI/models/diffusion_models/modelo_low.gguf
+RUN df -h
+RUN wget -q --header="Authorization: Bearer 93105849d4db166b5aa142fa4d6229e6" "https://civitai.com/api/download/models/2584698?type=Model&format=GGUF&size=full&fp=fp8" -O /ComfyUI/models/diffusion_models/modelo_hig.gguf
+RUN wget -q --header="Authorization: Bearer 93105849d4db166b5aa142fa4d6229e6" "https://civitai.com/api/download/models/2584707?type=Model&format=GGUF&size=full&fp=fp8" -O /ComfyUI/models/diffusion_models/modelo_low.gguf
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/SVI2PRO/SVI_Wan2.2-I2V-A14B_high_noise_lora_v2.0_pro.safetensors -O /ComfyUI/models/loras/SVI_Wan2.2-I2V-A14B_high_noise_lora_v2.0_pro.safetensors
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/SVI2PRO/SVI_Wan2.2-I2V-A14B_low_noise_lora_v2.0_pro.safetensors -O /ComfyUI/models/loras/SVI_Wan2.2-I2V-A14B_low_noise_lora_v2.0_pro.safetensors
 
