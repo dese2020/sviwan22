@@ -30,13 +30,42 @@ RUN cd /ComfyUI/custom_nodes && \
     git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite && \
     cd ComfyUI-VideoHelperSuite && \
     pip install -r requirements.txt
+	
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/city96/ComfyUI-GGUF && \
+    cd ComfyUI-GGUF && \
+    pip install -r requirements.txt
+	
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/rgthree/rgthree-comfy && \
+    cd rgthree-comfy && \
+    pip install -r requirements.txt
+	
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/filliptm/ComfyUI_Fill-Nodes && \
+    cd ComfyUI_Fill-Nodes && \
+    pip install -r requirements.txt
+	
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/princepainter/ComfyUI-PainterLongVideo 
+	
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/princepainter/ComfyUI-PainterI2Vadvanced
+	
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/ashtar1984/comfyui-find-perfect-resolution
+	
+	
+	
 
-#RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors -O /ComfyUI/models/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors
-#RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors -O /ComfyUI/models/vae/wan_2.1_vae.safetensors
+RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors -O /ComfyUI/models/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors
+RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors -O /ComfyUI/models/vae/wan_2.1_vae.safetensors
 #RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/diffusion_models/wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors -O /ComfyUI/models/diffusion_models/wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors
 #RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/loras/wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors -O /ComfyUI/models/loras/wan2.2_i2v_lightx2v_4steps_lora_v1_high_noise.safetensors
 #RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/loras/wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors -O /ComfyUI/models/loras/wan2.2_i2v_lightx2v_4steps_lora_v1_low_noise.safetensors
 #RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/diffusion_models/wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors -O /ComfyUI/models/diffusion_models/wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors
+RUN curl -L -H "Authorization: Bearer 93105849d4db166b5aa142fa4d6229e6" "https://civitai.com/api/download/models/2584698?type=Model&format=GGUF&size=full&fp=fp8" -o /ComfyUI/models/diffusion_models/modelo_hig.gguf
+RUN curl -L -H "Authorization: Bearer 93105849d4db166b5aa142fa4d6229e6" "https://civitai.com/api/download/models/2584707?type=Model&format=GGUF&size=full&fp=fp8" -o /ComfyUI/models/diffusion_models/modelo_low.gguf
 
 COPY . .
 RUN mkdir -p /ComfyUI/user/default/ComfyUI-Manager
