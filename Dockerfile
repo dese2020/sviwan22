@@ -1,0 +1,29 @@
+FROM dese251/sviwan22:run AS runtime
+
+WORKDIR /
+RUN mkdir -p \
+  /ComfyUI/models/text_encoders \
+  /ComfyUI/models/vae \
+  /ComfyUI/models/diffusion_models \
+  /ComfyUI/models/loras
+
+# HuggingFace (público)
+RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors -O /ComfyUI/models/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors && \
+    wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors -O /ComfyUI/models/vae/wan_2.1_vae.safetensors && \
+    wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/SVI2PRO/SVI_Wan2.2-I2V-A14B_high_noise_lora_v2.0_pro.safetensors -O /ComfyUI/models/loras/SVI_Wan2.2-I2V-A14B_high_noise_lora_v2.0_pro.safetensors && \
+    wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/SVI2PRO/SVI_Wan2.2-I2V-A14B_low_noise_lora_v2.0_pro.safetensors -O /ComfyUI/models/loras/SVI_Wan2.2-I2V-A14B_low_noise_lora_v2.0_pro.safetensors
+
+# CivitAI (con secret de BuildKit; el token NO queda en la imagen)
+RUN --mount=type=secret,id=civitai_token,env=CIVITAI_TOKEN \
+    bash -lc '\
+      curl -fsSL -H "Authorization: Bearer ${CIVITAI_TOKEN}" \
+        "https://civitai.com/api/download/models/2584698?type=Model&format=GGUF&size=full&fp=fp8" \
+        -o /ComfyUI/models/diffusion_models/modelo_hig.gguf && \
+      curl -fsSL -H "Authorization: Bearer ${CIVITAI_TOKEN}" \
+        "https://civitai.com/api/download/models/2584707?type=Model&format=GGUF&size=full&fp=fp8" \
+        -o /ComfyUI/models/diffusion_models/modelo_low.gguf \
+    '
+
+# Imagen final de assets con solo /ComfyUI/models
+FROM scratch
+COPY --from=base /ComfyUI/models /ComfyUI/models
