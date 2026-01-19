@@ -1,6 +1,12 @@
 
 # syntax=docker/dockerfile:1.7
-FROM wlsdml1114/multitalk-base:1.8 AS base
+#FROM wlsdml1114/multitalk-base:1.8 AS base
+
+
+FROM alpine:3.19 AS base
+RUN apk add --no-cache curl ca-certificates bash
+
+
 WORKDIR /
 RUN mkdir -p \
   /ComfyUI/models/text_encoders \
