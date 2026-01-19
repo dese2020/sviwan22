@@ -24,6 +24,4 @@ RUN --mount=type=secret,id=civitai_token,env=CIVITAI_TOKEN \
         -o /ComfyUI/models/diffusion_models/modelo_low.gguf \
     '
 
-# Imagen final de assets con solo /ComfyUI/models
-FROM scratch
-COPY --from=base /ComfyUI/models /ComfyUI/models
+CMD ["/entrypoint.sh"]
