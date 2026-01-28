@@ -15,6 +15,8 @@ WORKDIR /
 COPY --from=assets_b /ComfyUI/models/ /ComfyUI/models/
 
 # Archivos estables ya están en runtime (config.ini, extra_model_paths.yaml, entrypoint.sh)
+RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/diffusion_models/wan2.2_i2v_low_noise_14B_fp16.safetensors -O /ComfyUI/models/diffusion_models/wan2.2_i2v_low_noise_14B_fp16.safetensors
+RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/diffusion_models/wan2.2_i2v_high_noise_14B_fp16.safetensors -O /ComfyUI/models/diffusion_models/wan2.2_i2v_high_noise_14B_fp16.safetensors
 
 # ---- Cambios frecuentes: SOLO aquí ----
 WORKDIR /app
