@@ -1,0 +1,68 @@
+# Use specific version of nvidia cuda image
+# FROM wlsdml1114/my-comfy-models:v1 as model_provider
+FROM wlsdml1114/multitalk-base:1.8 AS runtime
+
+RUN pip install -U "huggingface_hub[hf_transfer]"
+RUN pip install runpod websocket-client
+
+WORKDIR /
+
+
+# Antes de clonar, ajusta git
+RUN git config --global http.version HTTP/1.1 \
+ && git config --global http.lowSpeedLimit 1 \
+ && git config --global http.lowSpeedTime 600 \
+ && git config --global http.postBuffer 524288000
+
+
+RUN git clone https://github.com/comfyanonymous/ComfyUI.git && \
+    cd /ComfyUI && \
+    pip install -r requirements.txt
+
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/Comfy-Org/ComfyUI-Manager.git && \
+    cd ComfyUI-Manager && \
+    pip install -r requirements.txt
+
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/kijai/ComfyUI-KJNodes && \
+    cd ComfyUI-KJNodes && \
+    pip install -r requirements.txt
+
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git && \
+    cd ComfyUI-Frame-Interpolation && \
+    python install.py
+    
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite && \
+    cd ComfyUI-VideoHelperSuite && \
+    pip install -r requirements.txt
+	
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git && \
+    cd ComfyUI-WanVideoWrapper && \
+    pip install -r requirements.txt
+	
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/GiusTex/ComfyUI-Wan-TimeToMove.git
+
+
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/kijai/ComfyUI-GIMM-VFI.git && \
+    cd ComfyUI-GIMM-VFI && \
+    pip install -r requirements.txt
+	
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/yolain/ComfyUI-Easy-Use.git && \
+    cd ComfyUI-Easy-Use && \
+    pip install -r requirements.txt
+	
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/wallen0322/ComfyUI-Wan22FMLF.git
+	
+COPY . .
+RUN mkdir -p /ComfyUI/user/default/ComfyUI-Manager
+COPY config.ini /ComfyUI/user/default/ComfyUI-Manager/config.ini
+COPY extra_model_paths.yaml /ComfyUI/extra_model_paths.yaml
+RUN chmod +x /entrypoint.sh
