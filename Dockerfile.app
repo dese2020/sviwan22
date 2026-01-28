@@ -5,7 +5,9 @@
 FROM dese251/sviwan22:run AS runtime
 
 # 2) Assets de modelos (solo para copiar modelos)
-FROM dese251/sviwan22:wan2.2 AS assets
+FROM dese251/sviwan22:bassets AS assets
+FROM dese251/sviwan22:hassets AS assets
+FROM dese251/sviwan22:lassets AS assets
 
 # 3) Imagen final: parte del runtime
 FROM dese251/sviwan22:run

@@ -1,27 +1,30 @@
-FROM dese251/sviwan22:run AS runtime
 
+# syntax=docker/dockerfile:1.7
+
+# 1) Etapas de assets (alias distintos)
+FROM dese251/sviwan22:bassets AS assets_b
+FROM dese251/sviwan22:hassets AS assets_h
+FROM dese251/sviwan22:lassets AS assets_l
+
+# 2) Imagen final basada en runtime (una sola FROM final)
+FROM dese251/sviwan22:run AS final
+ENV PATH="/opt/venv/bin:${PATH}"
 WORKDIR /
-RUN mkdir -p \
-  /ComfyUI/models/text_encoders \
-  /ComfyUI/models/vae \
-  /ComfyUI/models/diffusion_models \
-  /ComfyUI/models/loras
 
-# HuggingFace (público)
-RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.1_ComfyUI_repackaged/resolve/main/split_files/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors -O /ComfyUI/models/text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors && \
-    wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/vae/wan_2.1_vae.safetensors -O /ComfyUI/models/vae/wan_2.1_vae.safetensors && \
-    wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/SVI2PRO/SVI_Wan2.2-I2V-A14B_high_noise_lora_v2.0_pro.safetensors -O /ComfyUI/models/loras/SVI_Wan2.2-I2V-A14B_high_noise_lora_v2.0_pro.safetensors && \
-    wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/SVI2PRO/SVI_Wan2.2-I2V-A14B_low_noise_lora_v2.0_pro.safetensors -O /ComfyUI/models/loras/SVI_Wan2.2-I2V-A14B_low_noise_lora_v2.0_pro.safetensors
+# Copiar modelos de las TRES etapas de assets
+# Si hay colisiones de nombres, el último COPY gana.
+COPY --from=assets_b /ComfyUI/models/ /ComfyUI/models/
+COPY --from=assets_h /ComfyUI/models/ /ComfyUI/models/
+COPY --from=assets_l /ComfyUI/models/ /ComfyUI/models/
 
-# CivitAI (con secret de BuildKit; el token NO queda en la imagen)
-RUN --mount=type=secret,id=civitai_token,env=CIVITAI_TOKEN \
-    bash -lc '\
-      curl -fsSL -H "Authorization: Bearer ${CIVITAI_TOKEN}" \
-        "https://civitai.com/api/download/models/2584698?type=Model&format=GGUF&size=full&fp=fp8" \
-        -o /ComfyUI/models/diffusion_models/modelo_hig.gguf && \
-      curl -fsSL -H "Authorization: Bearer ${CIVITAI_TOKEN}" \
-        "https://civitai.com/api/download/models/2584707?type=Model&format=GGUF&size=full&fp=fp8" \
-        -o /ComfyUI/models/diffusion_models/modelo_low.gguf \
-    '
+# Archivos estables ya están en runtime (config.ini, extra_model_paths.yaml, entrypoint.sh)
+
+# ---- Cambios frecuentes: SOLO aquí ----
+WORKDIR /app
+COPY handler.py /app/handler.py
+COPY workflow/ /app/workflow/
+
+# (Opcional) Verifica permisos del entrypoint si no estuvieran en la base:
+# RUN chmod +x /entrypoint.sh
 
 CMD ["/entrypoint.sh"]

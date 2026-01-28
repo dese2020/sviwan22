@@ -25,7 +25,7 @@ RUN --mount=type=secret,id=civitai_token,env=CIVITAI_TOKEN \
     bash -lc '\
       curl -fsSL -H "Authorization: Bearer ${CIVITAI_TOKEN}" \
         "https://civitai.com/api/download/models/2584698?type=Model&format=GGUF&size=full&fp=fp8" \
-        -o /ComfyUI/models/diffusion_models/modelo_hig.gguf 
+        -o /ComfyUI/models/diffusion_models/modelo_hig.gguf \
     '
 
 # Imagen final de assets con solo /ComfyUI/models
