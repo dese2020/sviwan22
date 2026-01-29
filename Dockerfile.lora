@@ -30,6 +30,8 @@ RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/m
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_blow/iGOON_Blink_Blowjob_I2V_LOW.safetensors  -O /ComfyUI/models/loras/iGOON_Blink_Blowjob_I2V_LOW.safetensors  
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_cum/iGoon_Blink_Facial_I2V_HIGH.safetensors -O /ComfyUI/models/loras/iGoon_Blink_Facial_I2V_HIGH.safetensors
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_cum/iGoon_Blink_Facial_I2V_LOW.safetensors  -O /ComfyUI/models/loras/iGoon_Blink_Facial_I2V_LOW.safetensors 
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/allnsfw/wan22-k3nk4llinon3-15epoc-full-low-k3nk.safetensors -O /ComfyUI/models/loras/wan22-k3nk4llinon3-15epoc-full-low-k3nk.safetensors
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/allnsfw/wan22-k3nk4llinon3-16epoc-full-high-k3nk.safetensors -O /ComfyUI/models/loras/wan22-k3nk4llinon3-16epoc-full-high-k3nk.safetensors
 
 # Imagen final de assets con solo /ComfyUI/models
 FROM scratch
