@@ -1,0 +1,37 @@
+
+{
+  "input": {
+    "image_url": "https://tu.cdn/imagen.jpg",
+
+    "prompt": "She is talking to the camera, cinematic lighting, natural motion",
+    "negative_prompt": "low quality, overexposed, artifacts, static, messy background",
+
+    "width": 480,
+    "height": 832,
+    "frames_per_section": 81,
+    "fps": 16,
+    "crf": 19,
+
+    "workflow_path": "SVI_extension_gguf_api.json",
+
+    "loras": {
+      "high": [
+        { "name": "MI_LORA_HIGH_1.safetensors", "strength": 1.0 },   // → nodo 512
+        { "name": "MI_LORA_HIGH_2.safetensors", "strength": 1.0 }    // → nodo 515
+      ],
+      "low": [
+        { "name": "MI_LORA_LOW_1.safetensors",  "strength": 1.0 },   // → nodo 513
+        { "name": "MI_LORA_LOW_2.safetensors",  "strength": 1.0 }    // → nodo 514
+      ]
+    }
+  }
+}
+
+
+
+"prompts": [
+  "Section 1 prompt ...",
+  "Section 2 prompt ...",
+  "Section 3 prompt ...",
+  "Section 4 prompt ..."
+]
