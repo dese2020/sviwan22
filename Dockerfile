@@ -19,9 +19,9 @@ RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/
 RUN wget -q https://huggingface.co/Comfy-Org/Wan_2.2_ComfyUI_Repackaged/resolve/main/split_files/diffusion_models/wan2.2_i2v_high_noise_14B_fp16.safetensors -O /ComfyUI/models/diffusion_models/wan2.2_i2v_high_noise_14B_fp16.safetensors
 
 # ---- Cambios frecuentes: SOLO aquí ----
-WORKDIR /app
-COPY handler.py /app/handler.py
-COPY workflow/ /app/workflow/
+#WORKDIR /app
+#COPY handler.py /app/handler.py
+#COPY workflow/ /app/workflow/
 
 # (Opcional) Verifica permisos del entrypoint si no estuvieran en la base:
 # RUN chmod +x /entrypoint.sh
