@@ -25,5 +25,9 @@ COPY --from=lora /ComfyUI/models/loras/ /ComfyUI/models/loras/
 
 # (Opcional) Verifica permisos del entrypoint si no estuvieran en la base:
 # RUN chmod +x /entrypoint.sh
-
+COPY . .
+RUN mkdir -p /ComfyUI/user/default/ComfyUI-Manager
+COPY config.ini /ComfyUI/user/default/ComfyUI-Manager/config.ini
+COPY extra_model_paths.yaml /ComfyUI/extra_model_paths.yaml
+RUN chmod +x /entrypoint.sh
 CMD ["/entrypoint.sh"]

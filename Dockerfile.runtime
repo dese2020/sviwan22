@@ -61,8 +61,8 @@ RUN cd /ComfyUI/custom_nodes && \
 RUN cd /ComfyUI/custom_nodes && \
     git clone https://github.com/wallen0322/ComfyUI-Wan22FMLF.git
 	
-COPY . .
-RUN mkdir -p /ComfyUI/user/default/ComfyUI-Manager
-COPY config.ini /ComfyUI/user/default/ComfyUI-Manager/config.ini
-COPY extra_model_paths.yaml /ComfyUI/extra_model_paths.yaml
-RUN chmod +x /entrypoint.sh
+#COPY . .
+#RUN mkdir -p /ComfyUI/user/default/ComfyUI-Manager
+#COPY config.ini /ComfyUI/user/default/ComfyUI-Manager/config.ini
+#COPY extra_model_paths.yaml /ComfyUI/extra_model_paths.yaml
+#RUN chmod +x /entrypoint.sh
