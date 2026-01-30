@@ -57,6 +57,11 @@ RUN cd /ComfyUI/custom_nodes && \
     git clone https://github.com/yolain/ComfyUI-Easy-Use.git && \
     cd ComfyUI-Easy-Use && \
     pip install -r requirements.txt
+
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/city96/ComfyUI-GGUF.git && \
+    cd ComfyUI-GGUF && \
+    pip install -r requirements.txt
 	
 RUN cd /ComfyUI/custom_nodes && \
     git clone https://github.com/wallen0322/ComfyUI-Wan22FMLF.git
