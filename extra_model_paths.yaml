@@ -13,10 +13,15 @@ comfyui:
     diffusion_models: |
         models/diffusion_models
         models/unet
-        /runpod-volume/models/
+        /runpod-volume/models/diffusion_models/
     embeddings: models/embeddings/
     loras: |
         models/loras/
-        /runpod-volume/loras/
+        /runpod-volume/models/loras/
     upscale_models: models/upscale_models/
-    vae: models/vae/
+    vae: |
+        models/vae/
+        /runpod-volume/models/vae/
+    text_encoders: |
+        models/text_encoders/
+        /runpod-volume/models/text_encoders/
