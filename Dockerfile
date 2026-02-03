@@ -2,10 +2,10 @@
 # syntax=docker/dockerfile:1.7
 
 # 1) Etapas de assets (alias distintos)
-#FROM dese251/sviwan22:bassets AS assets_b
-#FROM dese251/sviwan22:hassets AS assets_h
-#FROM dese251/sviwan22:lassets AS assets_l
-#FROM dese251/sviwan22:lora AS lora
+FROM dese251/sviwan22:bassets AS assets_b
+FROM dese251/sviwan22:hassets AS assets_h
+FROM dese251/sviwan22:lassets AS assets_l
+FROM dese251/sviwan22:lora AS lora
 
 # 2) Imagen final basada en runtime (una sola FROM final)
 FROM dese251/sviwan22:run AS final
@@ -14,10 +14,10 @@ WORKDIR /
 
 # Copiar modelos de las TRES etapas de assets
 # Si hay colisiones de nombres, el último COPY gana.
-#COPY --from=assets_b /ComfyUI/models/ /ComfyUI/models/
-#COPY --from=assets_h /ComfyUI/models/ /ComfyUI/models/
-#COPY --from=assets_l /ComfyUI/models/ /ComfyUI/models/
-#COPY --from=lora /ComfyUI/models/loras/ /ComfyUI/models/loras/
+COPY --from=assets_b /ComfyUI/models/ /ComfyUI/models/
+COPY --from=assets_h /ComfyUI/models/ /ComfyUI/models/
+COPY --from=assets_l /ComfyUI/models/ /ComfyUI/models/
+COPY --from=lora /ComfyUI/models/loras/ /ComfyUI/models/loras/
 
 # Archivos estables ya están en runtime (config.ini, extra_model_paths.yaml, entrypoint.sh)
 
