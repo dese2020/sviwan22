@@ -1,0 +1,4 @@
+{
+  "workflow": { ... workflow completo de ComfyUI ... },
+  "image_base64": "iVBORw0KGgoAAAANSUhEUgAA..."
+}
