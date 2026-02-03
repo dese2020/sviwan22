@@ -287,7 +287,9 @@ def apply_core_params(prompt_graph, args):
     frames = int(args.get("frames_per_section", 81))
     prompt_graph[NODES["FPS"]]["inputs"]["value"] = fps
     prompt_graph[NODES["FRAMES_PER_SECTION"]]["inputs"]["value"] = frames
-
+    
+    #duracion para seleccionar cantidad de prompts
+    duracion = args.get("duracion", "20s")
     # Prompts
     p_list = args.get("prompts", None)
     if p_list and isinstance(p_list, list) and len(p_list) > 0:
@@ -303,16 +305,31 @@ def apply_core_params(prompt_graph, args):
         "negative_prompt",
         "bright tones, overexposed, static, blurred details, subtitles, worst quality, low quality, jpeg artifacts, ugly, extra fingers, bad hands, bad face, deformed, disfigured, fused fingers, messy background"
     )
-
-    prompt_graph[NODES["P_POS_1"]]["inputs"]["text"] = p1
-    prompt_graph[NODES["P_POS_2"]]["inputs"]["text"] = p2
-    prompt_graph[NODES["P_POS_3"]]["inputs"]["text"] = p3
-    prompt_graph[NODES["P_POS_4"]]["inputs"]["text"] = p4  # <-- fix
-
-    prompt_graph[NODES["P_NEG_1"]]["inputs"]["text"] = neg
-    prompt_graph[NODES["P_NEG_2"]]["inputs"]["text"] = neg
-    prompt_graph[NODES["P_NEG_3"]]["inputs"]["text"] = neg
-    prompt_graph[NODES["P_NEG_4"]]["inputs"]["text"] = neg
+    
+    if duracion == "5s":
+        prompt_graph[NODES["P_POS_1"]]["inputs"]["text"] = p1
+        prompt_graph[NODES["P_NEG_1"]]["inputs"]["text"] = neg
+    elif duracion == "10s":
+        prompt_graph[NODES["P_POS_1"]]["inputs"]["text"] = p1
+        prompt_graph[NODES["P_POS_2"]]["inputs"]["text"] = p2
+        prompt_graph[NODES["P_NEG_1"]]["inputs"]["text"] = neg
+        prompt_graph[NODES["P_NEG_2"]]["inputs"]["text"] = neg
+    elif duracion == "15s":
+        prompt_graph[NODES["P_POS_1"]]["inputs"]["text"] = p1
+        prompt_graph[NODES["P_POS_2"]]["inputs"]["text"] = p2
+        prompt_graph[NODES["P_POS_3"]]["inputs"]["text"] = p3
+        prompt_graph[NODES["P_NEG_1"]]["inputs"]["text"] = neg
+        prompt_graph[NODES["P_NEG_2"]]["inputs"]["text"] = neg
+        prompt_graph[NODES["P_NEG_3"]]["inputs"]["text"] = neg
+    else:
+        prompt_graph[NODES["P_POS_1"]]["inputs"]["text"] = p1
+        prompt_graph[NODES["P_POS_2"]]["inputs"]["text"] = p2
+        prompt_graph[NODES["P_POS_3"]]["inputs"]["text"] = p3
+        prompt_graph[NODES["P_POS_4"]]["inputs"]["text"] = p4  
+        prompt_graph[NODES["P_NEG_1"]]["inputs"]["text"] = neg
+        prompt_graph[NODES["P_NEG_2"]]["inputs"]["text"] = neg
+        prompt_graph[NODES["P_NEG_3"]]["inputs"]["text"] = neg
+        prompt_graph[NODES["P_NEG_4"]]["inputs"]["text"] = neg
 
     # Guardado MP4 (si quieres cambiar CRF)
     vc_inputs = prompt_graph[NODES["VIDEO_COMBINE"]]["inputs"]
@@ -425,6 +442,7 @@ def handler(job):
         "prompts": job_input.get("prompts"),  # lista opcional de 1–4
         "negative_prompt": job_input.get("negative_prompt"),
         "crf": job_input.get("crf"),
+        "duracion": job_input.get("duracion"),
     }
     prompt_graph = apply_core_params(prompt_graph, args)
 

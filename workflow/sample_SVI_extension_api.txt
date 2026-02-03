@@ -1,5 +1,7 @@
 {
   "input": {
+    //define cual workflow usar, 20s, 15s, 10s, 5s segundos, 20s es por defecto, al cambiar se debe cambiar tambien el workflow
+    "duracion": "10s",
     // Imagen de entrada (elige UNA fuente)
     "image_url": "https://.../input.jpg",
     // "image_path": "/data/input.jpg",

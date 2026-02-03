@@ -33,6 +33,14 @@ RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/m
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/allnsfw/wan22-k3nk4llinon3-15epoc-full-low-k3nk.safetensors -O /ComfyUI/models/loras/wan22-k3nk4llinon3-15epoc-full-low-k3nk.safetensors
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/allnsfw/wan22-k3nk4llinon3-16epoc-full-high-k3nk.safetensors -O /ComfyUI/models/loras/wan22-k3nk4llinon3-16epoc-full-high-k3nk.safetensors
 
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_ride/Blink_Squatting_Cowgirl_Position_I2V_HIGH.safetensors -O /ComfyUI/models/loras/Blink_Squatting_Cowgirl_Position_I2V_HIGH.safetensors
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_ride/Blink_Squatting_Cowgirl_Position_I2V_LOW.safetensors  -O /ComfyUI/models/loras/Blink_Squatting_Cowgirl_Position_I2V_LOW.safetensors
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_doggy/iGoon-Blink_Front_Doggystyle_I2V_HIGH.safetensors    -O /ComfyUI/models/loras/iGoon-Blink_Front_Doggystyle_I2V_HIGH.safetensors
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_doggy/iGoon-Blink_Front_Doggystyle_I2V_LOW.safetensors     -O /ComfyUI/models/loras/iGoon-Blink_Front_Doggystyle_I2V_LOW.safetensors 
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_fuck/iGoon-Blink_Missionary_I2V_LOW_v2.safetensors         -O /ComfyUI/models/loras/iGoon-Blink_Missionary_I2V_LOW_v2.safetensors
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_fuck/iGoon_Blink_Missionary_I2V_HIGH_v2.safetensors        -O /ComfyUI/models/loras/iGoon_Blink_Missionary_I2V_HIGH_v2.safetensors
+
+
 # Imagen final de assets con solo /ComfyUI/models
 FROM scratch
 COPY --from=base /ComfyUI/models/loras /ComfyUI/models/loras
