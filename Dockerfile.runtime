@@ -39,19 +39,19 @@ RUN cd /ComfyUI/custom_nodes && \
     cd ComfyUI-VideoHelperSuite && \
     pip install -r requirements.txt
 	
-RUN cd /ComfyUI/custom_nodes && \
-    git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git && \
-    cd ComfyUI-WanVideoWrapper && \
-    pip install -r requirements.txt
+#RUN cd /ComfyUI/custom_nodes && \
+#    git clone https://github.com/kijai/ComfyUI-WanVideoWrapper.git && \
+#    cd ComfyUI-WanVideoWrapper && \
+#    pip install -r requirements.txt
 	
-RUN cd /ComfyUI/custom_nodes && \
-    git clone https://github.com/GiusTex/ComfyUI-Wan-TimeToMove.git
+#RUN cd /ComfyUI/custom_nodes && \
+#    git clone https://github.com/GiusTex/ComfyUI-Wan-TimeToMove.git
+#
 
-
-RUN cd /ComfyUI/custom_nodes && \
-    git clone https://github.com/kijai/ComfyUI-GIMM-VFI.git && \
-    cd ComfyUI-GIMM-VFI && \
-    pip install -r requirements.txt
+#RUN cd /ComfyUI/custom_nodes && \
+#    git clone https://github.com/kijai/ComfyUI-GIMM-VFI.git && \
+#    cd ComfyUI-GIMM-VFI && \
+#    pip install -r requirements.txt
 	
 RUN cd /ComfyUI/custom_nodes && \
     git clone https://github.com/yolain/ComfyUI-Easy-Use.git && \
