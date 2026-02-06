@@ -379,19 +379,25 @@
       "title": "Wan Advanced I2V (Ultimate)"
     }
   },
-    "519": {
+
+"519": {
     "inputs": {
-      "images": [
+      "inputcount": 2,
+      "Update inputs": null,
+      "image_1": [
+        "485:58",
+        0
+      ],
+      "image_2": [
         "485:58",
         0
       ]
     },
-    "class_type": "ImageListToImageBatch",
+    "class_type": "ImageBatchMulti",
     "_meta": {
-      "title": "Image List to Image Batch"
+      "title": "Image Batch Multi"
     }
   },
-
   "520": {
     "inputs": {
       "start": 0,

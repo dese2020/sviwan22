@@ -525,16 +525,23 @@
       "title": "Upscale Factor"
     }
   },
+
   "527": {
     "inputs": {
-      "images": [
+      "inputcount": 2,
+      "Update inputs": null,
+      "image_1": [
         "504",
-        2
+        0
+      ],
+      "image_2": [
+        "504",
+        0
       ]
     },
-    "class_type": "ImageListToImageBatch",
+    "class_type": "ImageBatchMulti",
     "_meta": {
-      "title": "Image List to Image Batch"
+      "title": "Image Batch Multi"
     }
   },
   "485:476": {
