@@ -66,6 +66,19 @@ RUN cd /ComfyUI/custom_nodes && \
 RUN cd /ComfyUI/custom_nodes && \
     git clone https://github.com/wallen0322/ComfyUI-Wan22FMLF.git
 	
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/ltdrdata/ComfyUI-Impact-Pack.git && \
+    cd ComfyUI-Impact-Pack && \
+    pip install -r requirements.txt
+	
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/cubiq/ComfyUI_essentials.git && \
+    cd ComfyUI_essentials && \
+    pip install -r requirements.txt
+	
+RUN cd /ComfyUI/custom_nodes && \
+    git clone https://github.com/M1kep/ComfyLiterals.git
+	
 #COPY . .
 #RUN mkdir -p /ComfyUI/user/default/ComfyUI-Manager
 #COPY config.ini /ComfyUI/user/default/ComfyUI-Manager/config.ini
