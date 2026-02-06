@@ -161,28 +161,6 @@
       "title": "CargadorLoRAModeloSolo"
     }
   },
-  "444": {
-    "inputs": {
-      "frame_rate": 16,
-      "loop_count": 0,
-      "filename_prefix": "AnimateDiff",
-      "format": "video/h264-mp4",
-      "pix_fmt": "yuv420p",
-      "crf": 19,
-      "save_metadata": true,
-      "trim_to_audio": false,
-      "pingpong": false,
-      "save_output": true,
-      "images": [
-        "460",
-        2
-      ]
-    },
-    "class_type": "VHS_VideoCombine",
-    "_meta": {
-      "title": "Video Combine 🎥🅥🅗🅢"
-    }
-  },
   "460": {
     "inputs": {
       "overlap": 5,
@@ -582,6 +560,177 @@
     "class_type": "WanAdvancedI2V",
     "_meta": {
       "title": "Wan Advanced I2V (Ultimate)"
+    }
+  },
+
+"519": {
+    "inputs": {
+      "inputcount": 2,
+      "Update inputs": null,
+      "image_1": [
+        "460",
+        0
+      ],
+      "image_2": [
+        "460",
+        0
+      ]
+    },
+    "class_type": "ImageBatchMulti",
+    "_meta": {
+      "title": "Image Batch Multi"
+    }
+  },
+  "520": {
+    "inputs": {
+      "start": 0,
+      "length": 1,
+      "image": [
+        "519",
+        0
+      ]
+    },
+    "class_type": "ImageFromBatch+",
+    "_meta": {
+      "title": "🔧 Image From Batch"
+    }
+  },
+
+  "521": {
+    "inputs": {
+      "image": [
+        "520",
+        0
+      ]
+    },
+    "class_type": "GetImageSize+",
+    "_meta": {
+      "title": "🔧 Get Image Size"
+    }
+  },
+
+  "522": {
+    "inputs": {
+      "value": "a*b",
+      "a": [
+        "521",
+        0
+      ],
+      "b": [
+        "524",
+        0
+      ]
+    },
+    "class_type": "SimpleMath+",
+    "_meta": {
+      "title": "width"
+    }
+  },
+
+  "523": {
+    "inputs": {
+      "value": "a*b",
+      "a": [
+        "521",
+        1
+      ],
+      "b": [
+        "524",
+        0
+      ]
+    },
+    "class_type": "SimpleMath+",
+    "_meta": {
+      "title": "height"
+    }
+  },
+
+  "524": {
+    "inputs": {
+      "Number": "1.5"
+    },
+    "class_type": "Float",
+    "_meta": {
+      "title": "Upscale Factor"
+    }
+  },
+
+  "525": {
+    "inputs": {
+      "upscale_method": "lanczos",
+      "scale_by": 0.5,
+      "image": [
+        "485:58",
+        0
+      ]
+    },
+    "class_type": "ImageScaleBy",
+    "_meta": {
+      "title": "Ampliar Imagen Por"
+    }
+  },
+
+  "526": {
+    "inputs": {
+      "upscale_method": "lanczos",
+      "width": [
+        "522",
+        0
+      ],
+      "height": [
+        "523",
+        0
+      ],
+      "crop": "center",
+      "image": [
+        "525",
+        0
+      ]
+    },
+    "class_type": "ImageScale",
+    "_meta": {
+      "title": "Ampliar Imagen"
+    }
+  },
+
+  "527": {
+    "inputs": {
+      "ckpt_name": "rife49.pth",
+      "clear_cache_after_n_frames": 5,
+      "multiplier": 4,
+      "fast_mode": false,
+      "ensemble": true,
+      "scale_factor": 1,
+      "frames": [
+        "526",
+        0
+      ]
+    },
+    "class_type": "RIFE VFI",
+    "_meta": {
+      "title": "RIFE VFI (recommend rife47 and rife49)"
+    }
+  },
+    "444": {
+    "inputs": {
+      "frame_rate": 16,
+      "loop_count": 0,
+      "filename_prefix": "AnimateDiff",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false,
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "527",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
     }
   }
 }

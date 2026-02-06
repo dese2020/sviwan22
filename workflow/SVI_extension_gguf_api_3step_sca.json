@@ -161,6 +161,28 @@
       "title": "CargadorLoRAModeloSolo"
     }
   },
+  "444": {
+    "inputs": {
+      "frame_rate": 60,
+      "loop_count": 0,
+      "filename_prefix": "AnimateDiff",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": true,
+      "trim_to_audio": false,
+      "pingpong": false,
+      "save_output": true,
+      "images": [
+        "520",
+        0
+      ]
+    },
+    "class_type": "VHS_VideoCombine",
+    "_meta": {
+      "title": "Video Combine 🎥🅥🅗🅢"
+    }
+  },
   "445": {
     "inputs": {
       "overlap": 5,
@@ -380,20 +402,198 @@
       "title": "CargadorLoRAModeloSolo"
     }
   },
-  "485:58": {
+  "519": {
     "inputs": {
-      "samples": [
-        "485:398",
+      "start": 0,
+      "length": 1,
+      "image": [
+        "527",
+        0
+      ]
+    },
+    "class_type": "ImageFromBatch+",
+    "_meta": {
+      "title": "🔧 Image From Batch"
+    }
+  },
+  "520": {
+    "inputs": {
+      "ckpt_name": "rife49.pth",
+      "clear_cache_after_n_frames": 5,
+      "multiplier": 4,
+      "fast_mode": false,
+      "ensemble": true,
+      "scale_factor": 1,
+      "frames": [
+        "522",
+        0
+      ]
+    },
+    "class_type": "RIFE VFI",
+    "_meta": {
+      "title": "RIFE VFI (recommend rife47 and rife49)"
+    }
+  },
+  "521": {
+    "inputs": {
+      "upscale_method": "lanczos",
+      "scale_by": 0.5,
+      "image": [
+        "504",
+        2
+      ]
+    },
+    "class_type": "ImageScaleBy",
+    "_meta": {
+      "title": "Ampliar Imagen Por"
+    }
+  },
+  "522": {
+    "inputs": {
+      "upscale_method": "lanczos",
+      "width": [
+        "524",
+        0
+      ],
+      "height": [
+        "523",
+        0
+      ],
+      "crop": "center",
+      "image": [
+        "521",
+        0
+      ]
+    },
+    "class_type": "ImageScale",
+    "_meta": {
+      "title": "Ampliar Imagen"
+    }
+  },
+  "523": {
+    "inputs": {
+      "value": "a*b",
+      "a": [
+        "525",
+        1
+      ],
+      "b": [
+        "526",
+        0
+      ]
+    },
+    "class_type": "SimpleMath+",
+    "_meta": {
+      "title": "height"
+    }
+  },
+  "524": {
+    "inputs": {
+      "value": "a*b",
+      "a": [
+        "525",
+        0
+      ],
+      "b": [
+        "526",
+        0
+      ]
+    },
+    "class_type": "SimpleMath+",
+    "_meta": {
+      "title": "width"
+    }
+  },
+  "525": {
+    "inputs": {
+      "image": [
+        "519",
+        0
+      ]
+    },
+    "class_type": "GetImageSize+",
+    "_meta": {
+      "title": "🔧 Get Image Size"
+    }
+  },
+  "526": {
+    "inputs": {
+      "Number": "1.5"
+    },
+    "class_type": "Float",
+    "_meta": {
+      "title": "Upscale Factor"
+    }
+  },
+
+  "527": {
+    "inputs": {
+      "inputcount": 2,
+      "Update inputs": null,
+      "image_1": [
+        "504",
+        0
+      ],
+      "image_2": [
+        "504",
+        0
+      ]
+    },
+    "class_type": "ImageBatchMulti",
+    "_meta": {
+      "title": "Image Batch Multi"
+    }
+  },
+  "485:476": {
+    "inputs": {
+      "width": [
+        "159",
+        0
+      ],
+      "height": [
+        "160",
+        0
+      ],
+      "length": [
+        "259",
+        0
+      ],
+      "batch_size": 1,
+      "mode": "NORMAL",
+      "middle_frame_ratio": 0,
+      "video_frame_offset": 0,
+      "long_video_mode": "SVI",
+      "continue_frames_count": 0,
+      "high_noise_start_strength": 0.5,
+      "high_noise_mid_strength": 0,
+      "low_noise_start_strength": 0.5,
+      "low_noise_mid_strength": 0,
+      "low_noise_end_strength": 0.5,
+      "structural_repulsion_boost": 1,
+      "enable_start_frame": true,
+      "enable_middle_frame": true,
+      "enable_end_frame": true,
+      "svi_motion_strength": 1,
+      "positive": [
+        "21",
+        0
+      ],
+      "negative": [
+        "1",
         0
       ],
       "vae": [
         "3",
         0
+      ],
+      "start_image": [
+        "10",
+        0
       ]
     },
-    "class_type": "VAEDecode",
+    "class_type": "WanAdvancedI2V",
     "_meta": {
-      "title": "Decodificación VAE"
+      "title": "Wan Advanced I2V (Ultimate)"
     }
   },
   "485:399": {
@@ -462,62 +662,10 @@
       "title": "KSampler (Avanzado)"
     }
   },
-  "485:476": {
-    "inputs": {
-      "width": [
-        "159",
-        0
-      ],
-      "height": [
-        "160",
-        0
-      ],
-      "length": [
-        "259",
-        0
-      ],
-      "batch_size": 1,
-      "mode": "NORMAL",
-      "middle_frame_ratio": 0,
-      "video_frame_offset": 0,
-      "long_video_mode": "SVI",
-      "continue_frames_count": 0,
-      "high_noise_start_strength": 0.5,
-      "high_noise_mid_strength": 0,
-      "low_noise_start_strength": 0.5,
-      "low_noise_mid_strength": 0,
-      "low_noise_end_strength": 0.5,
-      "structural_repulsion_boost": 1,
-      "enable_start_frame": true,
-      "enable_middle_frame": true,
-      "enable_end_frame": true,
-      "svi_motion_strength": 1,
-      "positive": [
-        "21",
-        0
-      ],
-      "negative": [
-        "1",
-        0
-      ],
-      "vae": [
-        "3",
-        0
-      ],
-      "start_image": [
-        "10",
-        0
-      ]
-    },
-    "class_type": "WanAdvancedI2V",
-    "_meta": {
-      "title": "Wan Advanced I2V (Ultimate)"
-    }
-  },
-  "486:439": {
+  "485:58": {
     "inputs": {
       "samples": [
-        "486:438",
+        "485:398",
         0
       ],
       "vae": [
@@ -528,72 +676,6 @@
     "class_type": "VAEDecode",
     "_meta": {
       "title": "Decodificación VAE"
-    }
-  },
-  "486:438": {
-    "inputs": {
-      "add_noise": "disable",
-      "noise_seed": 569998613763305,
-      "steps": 6,
-      "cfg": 1,
-      "sampler_name": "euler",
-      "scheduler": "simple",
-      "start_at_step": 3,
-      "end_at_step": 10000,
-      "return_with_leftover_noise": "disable",
-      "model": [
-        "402",
-        0
-      ],
-      "positive": [
-        "486:477",
-        0
-      ],
-      "negative": [
-        "486:477",
-        2
-      ],
-      "latent_image": [
-        "486:436",
-        0
-      ]
-    },
-    "class_type": "KSamplerAdvanced",
-    "_meta": {
-      "title": "KSampler (Avanzado)"
-    }
-  },
-  "486:436": {
-    "inputs": {
-      "add_noise": "enable",
-      "noise_seed": 56311625239443,
-      "steps": 6,
-      "cfg": 1,
-      "sampler_name": "euler",
-      "scheduler": "simple",
-      "start_at_step": 0,
-      "end_at_step": 3,
-      "return_with_leftover_noise": "enable",
-      "model": [
-        "60",
-        0
-      ],
-      "positive": [
-        "486:477",
-        0
-      ],
-      "negative": [
-        "486:477",
-        2
-      ],
-      "latent_image": [
-        "486:477",
-        3
-      ]
-    },
-    "class_type": "KSamplerAdvanced",
-    "_meta": {
-      "title": "KSampler (Avanzado)"
     }
   },
   "486:477": {
@@ -652,59 +734,10 @@
       "title": "Wan Advanced I2V (Ultimate)"
     }
   },
-  "492:459": {
-    "inputs": {
-      "samples": [
-        "492:457",
-        0
-      ],
-      "vae": [
-        "3",
-        0
-      ]
-    },
-    "class_type": "VAEDecode",
-    "_meta": {
-      "title": "Decodificación VAE"
-    }
-  },
-  "492:457": {
-    "inputs": {
-      "add_noise": "disable",
-      "noise_seed": 327023809118313,
-      "steps": 6,
-      "cfg": 1,
-      "sampler_name": "euler",
-      "scheduler": "simple",
-      "start_at_step": 3,
-      "end_at_step": 10000,
-      "return_with_leftover_noise": "disable",
-      "model": [
-        "402",
-        0
-      ],
-      "positive": [
-        "492:478",
-        0
-      ],
-      "negative": [
-        "492:478",
-        2
-      ],
-      "latent_image": [
-        "492:454",
-        0
-      ]
-    },
-    "class_type": "KSamplerAdvanced",
-    "_meta": {
-      "title": "KSampler (Avanzado)"
-    }
-  },
-  "492:454": {
+  "486:436": {
     "inputs": {
       "add_noise": "enable",
-      "noise_seed": 447051632592511,
+      "noise_seed": 56311625239443,
       "steps": 6,
       "cfg": 1,
       "sampler_name": "euler",
@@ -717,21 +750,70 @@
         0
       ],
       "positive": [
-        "492:478",
+        "486:477",
         0
       ],
       "negative": [
-        "492:478",
+        "486:477",
         2
       ],
       "latent_image": [
-        "492:478",
+        "486:477",
         3
       ]
     },
     "class_type": "KSamplerAdvanced",
     "_meta": {
       "title": "KSampler (Avanzado)"
+    }
+  },
+  "486:438": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": 569998613763305,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 3,
+      "end_at_step": 10000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "402",
+        0
+      ],
+      "positive": [
+        "486:477",
+        0
+      ],
+      "negative": [
+        "486:477",
+        2
+      ],
+      "latent_image": [
+        "486:436",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "KSampler (Avanzado)"
+    }
+  },
+  "486:439": {
+    "inputs": {
+      "samples": [
+        "486:438",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "Decodificación VAE"
     }
   },
   "492:478": {
@@ -790,59 +872,10 @@
       "title": "Wan Advanced I2V (Ultimate)"
     }
   },
-  "511:459": {
-    "inputs": {
-      "samples": [
-        "511:457",
-        0
-      ],
-      "vae": [
-        "3",
-        0
-      ]
-    },
-    "class_type": "VAEDecode",
-    "_meta": {
-      "title": "Decodificación VAE"
-    }
-  },
-  "511:457": {
-    "inputs": {
-      "add_noise": "disable",
-      "noise_seed": 806060048775870,
-      "steps": 6,
-      "cfg": 1,
-      "sampler_name": "euler",
-      "scheduler": "simple",
-      "start_at_step": 3,
-      "end_at_step": 10000,
-      "return_with_leftover_noise": "disable",
-      "model": [
-        "402",
-        0
-      ],
-      "positive": [
-        "511:478",
-        0
-      ],
-      "negative": [
-        "511:478",
-        2
-      ],
-      "latent_image": [
-        "511:454",
-        0
-      ]
-    },
-    "class_type": "KSamplerAdvanced",
-    "_meta": {
-      "title": "KSampler (Avanzado)"
-    }
-  },
-  "511:454": {
+  "492:454": {
     "inputs": {
       "add_noise": "enable",
-      "noise_seed": 629025776133402,
+      "noise_seed": 447051632592511,
       "steps": 6,
       "cfg": 1,
       "sampler_name": "euler",
@@ -855,21 +888,70 @@
         0
       ],
       "positive": [
-        "511:478",
+        "492:478",
         0
       ],
       "negative": [
-        "511:478",
+        "492:478",
         2
       ],
       "latent_image": [
-        "511:478",
+        "492:478",
         3
       ]
     },
     "class_type": "KSamplerAdvanced",
     "_meta": {
       "title": "KSampler (Avanzado)"
+    }
+  },
+  "492:457": {
+    "inputs": {
+      "add_noise": "disable",
+      "noise_seed": 327023809118313,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 3,
+      "end_at_step": 10000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "402",
+        0
+      ],
+      "positive": [
+        "492:478",
+        0
+      ],
+      "negative": [
+        "492:478",
+        2
+      ],
+      "latent_image": [
+        "492:454",
+        0
+      ]
+    },
+    "class_type": "KSamplerAdvanced",
+    "_meta": {
+      "title": "KSampler (Avanzado)"
+    }
+  },
+  "492:459": {
+    "inputs": {
+      "samples": [
+        "492:457",
+        0
+      ],
+      "vae": [
+        "3",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "Decodificación VAE"
     }
   },
   "511:478": {
@@ -927,176 +1009,87 @@
     "_meta": {
       "title": "Wan Advanced I2V (Ultimate)"
     }
-  },  
-  "519": {
+  },
+  "511:454": {
     "inputs": {
-      "inputcount": 2,
-      "Update inputs": null,
-      "image_1": [
-        "504",
+      "add_noise": "enable",
+      "noise_seed": 629025776133402,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 0,
+      "end_at_step": 3,
+      "return_with_leftover_noise": "enable",
+      "model": [
+        "60",
         0
       ],
-      "image_2": [
-        "504",
-        0
-      ]
-    },
-    "class_type": "ImageBatchMulti",
-    "_meta": {
-      "title": "Image Batch Multi"
-    }
-  },
-
-  "520": {
-    "inputs": {
-      "start": 0,
-      "length": 1,
-      "image": [
-        "519",
-        0
-      ]
-    },
-    "class_type": "ImageFromBatch+",
-    "_meta": {
-      "title": "🔧 Image From Batch"
-    }
-  },
-
-  "521": {
-    "inputs": {
-      "image": [
-        "520",
-        0
-      ]
-    },
-    "class_type": "GetImageSize+",
-    "_meta": {
-      "title": "🔧 Get Image Size"
-    }
-  },
-
-  "522": {
-    "inputs": {
-      "value": "a*b",
-      "a": [
-        "521",
+      "positive": [
+        "511:478",
         0
       ],
-      "b": [
-        "524",
-        0
-      ]
-    },
-    "class_type": "SimpleMath+",
-    "_meta": {
-      "title": "width"
-    }
-  },
-
-  "523": {
-    "inputs": {
-      "value": "a*b",
-      "a": [
-        "521",
-        1
+      "negative": [
+        "511:478",
+        2
       ],
-      "b": [
-        "524",
-        0
+      "latent_image": [
+        "511:478",
+        3
       ]
     },
-    "class_type": "SimpleMath+",
+    "class_type": "KSamplerAdvanced",
     "_meta": {
-      "title": "height"
+      "title": "KSampler (Avanzado)"
     }
   },
-
-  "524": {
+  "511:457": {
     "inputs": {
-      "Number": "1.5"
-    },
-    "class_type": "Float",
-    "_meta": {
-      "title": "Upscale Factor"
-    }
-  },
-
-  "525": {
-    "inputs": {
-      "upscale_method": "lanczos",
-      "scale_by": 0.5,
-      "image": [
-        "485:58",
-        0
-      ]
-    },
-    "class_type": "ImageScaleBy",
-    "_meta": {
-      "title": "Ampliar Imagen Por"
-    }
-  },
-
-  "526": {
-    "inputs": {
-      "upscale_method": "lanczos",
-      "width": [
-        "522",
+      "add_noise": "disable",
+      "noise_seed": 806060048775870,
+      "steps": 6,
+      "cfg": 1,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "start_at_step": 3,
+      "end_at_step": 10000,
+      "return_with_leftover_noise": "disable",
+      "model": [
+        "402",
         0
       ],
-      "height": [
-        "523",
+      "positive": [
+        "511:478",
         0
       ],
-      "crop": "center",
-      "image": [
-        "525",
+      "negative": [
+        "511:478",
+        2
+      ],
+      "latent_image": [
+        "511:454",
         0
       ]
     },
-    "class_type": "ImageScale",
+    "class_type": "KSamplerAdvanced",
     "_meta": {
-      "title": "Ampliar Imagen"
+      "title": "KSampler (Avanzado)"
     }
   },
-
-  "527": {
+  "511:459": {
     "inputs": {
-      "ckpt_name": "rife49.pth",
-      "clear_cache_after_n_frames": 5,
-      "multiplier": 4,
-      "fast_mode": false,
-      "ensemble": true,
-      "scale_factor": 1,
-      "frames": [
-        "526",
+      "samples": [
+        "511:457",
+        0
+      ],
+      "vae": [
+        "3",
         0
       ]
     },
-    "class_type": "RIFE VFI",
+    "class_type": "VAEDecode",
     "_meta": {
-      "title": "RIFE VFI (recommend rife47 and rife49)"
-    }
-  },
-    "444": {
-    "inputs": {
-      "frame_rate": 16,
-      "loop_count": 0,
-      "filename_prefix": "AnimateDiff",
-      "format": "video/h264-mp4",
-      "pix_fmt": "yuv420p",
-      "crf": 19,
-      "save_metadata": true,
-      "trim_to_audio": false,
-      "pingpong": false,
-      "save_output": true,
-      "images": [
-        "527",
-        0
-      ]
-    },
-    "class_type": "VHS_VideoCombine",
-    "_meta": {
-      "title": "Video Combine 🎥🅥🅗🅢"
+      "title": "Decodificación VAE"
     }
   }
 }
