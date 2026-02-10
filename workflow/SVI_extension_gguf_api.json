@@ -422,12 +422,12 @@
     "inputs": {
       "add_noise": "enable",
       "noise_seed": 55818691209508,
-      "steps": 4,
+      "steps": 6,
       "cfg": 1,
       "sampler_name": "euler",
       "scheduler": "simple",
       "start_at_step": 0,
-      "end_at_step": 2,
+      "end_at_step": 3,
       "return_with_leftover_noise": "enable",
       "model": [
         "60",
@@ -455,11 +455,11 @@
     "inputs": {
       "add_noise": "disable",
       "noise_seed": 147982702829495,
-      "steps": 4,
+      "steps": 6,
       "cfg": 1,
       "sampler_name": "euler",
       "scheduler": "simple",
-      "start_at_step": 2,
+      "start_at_step": 3,
       "end_at_step": 10000,
       "return_with_leftover_noise": "disable",
       "model": [
@@ -556,11 +556,11 @@
     "inputs": {
       "add_noise": "disable",
       "noise_seed": 569998613763305,
-      "steps": 4,
+      "steps": 6,
       "cfg": 1,
       "sampler_name": "euler",
       "scheduler": "simple",
-      "start_at_step": 2,
+      "start_at_step": 3,
       "end_at_step": 10000,
       "return_with_leftover_noise": "disable",
       "model": [
@@ -589,12 +589,12 @@
     "inputs": {
       "add_noise": "enable",
       "noise_seed": 56311625239443,
-      "steps": 4,
+      "steps": 6,
       "cfg": 1,
       "sampler_name": "euler",
       "scheduler": "simple",
       "start_at_step": 0,
-      "end_at_step": 2,
+      "end_at_step": 3,
       "return_with_leftover_noise": "enable",
       "model": [
         "60",
@@ -694,11 +694,11 @@
     "inputs": {
       "add_noise": "disable",
       "noise_seed": 327023809118313,
-      "steps": 4,
+      "steps": 6,
       "cfg": 1,
       "sampler_name": "euler",
       "scheduler": "simple",
-      "start_at_step": 2,
+      "start_at_step": 3,
       "end_at_step": 10000,
       "return_with_leftover_noise": "disable",
       "model": [
@@ -727,12 +727,12 @@
     "inputs": {
       "add_noise": "enable",
       "noise_seed": 447051632592511,
-      "steps": 4,
+      "steps": 6,
       "cfg": 1,
       "sampler_name": "euler",
       "scheduler": "simple",
       "start_at_step": 0,
-      "end_at_step": 2,
+      "end_at_step": 3,
       "return_with_leftover_noise": "enable",
       "model": [
         "60",
@@ -832,11 +832,11 @@
     "inputs": {
       "add_noise": "disable",
       "noise_seed": 806060048775870,
-      "steps": 4,
+      "steps": 6,
       "cfg": 1,
       "sampler_name": "euler",
       "scheduler": "simple",
-      "start_at_step": 2,
+      "start_at_step": 3,
       "end_at_step": 10000,
       "return_with_leftover_noise": "disable",
       "model": [
@@ -865,12 +865,12 @@
     "inputs": {
       "add_noise": "enable",
       "noise_seed": 629025776133402,
-      "steps": 4,
+      "steps": 6,
       "cfg": 1,
       "sampler_name": "euler",
       "scheduler": "simple",
       "start_at_step": 0,
-      "end_at_step": 2,
+      "end_at_step": 3,
       "return_with_leftover_noise": "enable",
       "model": [
         "60",

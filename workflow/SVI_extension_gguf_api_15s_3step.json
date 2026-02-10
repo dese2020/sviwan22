@@ -751,11 +751,11 @@
       "Update inputs": null,
       "image_1": [
         "445",
-        0
+        2
       ],
       "image_2": [
         "445",
-        0
+        2
       ]
     },
     "class_type": "ImageBatchMulti",
@@ -865,8 +865,8 @@
       ],
       "crop": "center",
       "image": [
-        "525",
-        0
+        "445",
+        2
       ]
     },
     "class_type": "ImageScale",
