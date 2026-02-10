@@ -430,26 +430,34 @@ def handler(job):
         logger.info("Usando imagen por defecto /example.png")
 
     # 2) Cargar workflow y aplicar parámetros
-    workflow_path = job_input.get("workflow_path", "SVI_extension_api.json")
-    prompt_graph = load_workflow(workflow_path)
-    args = {
-        "image_path": image_path,
-        "width": job_input.get("width", 480),
-        "height": job_input.get("height", 832),
-        "fps": job_input.get("fps", 16),
-        "frames_per_section": job_input.get("frames_per_section", 81),
-        "prompt": job_input.get("prompt"),
-        "prompts": job_input.get("prompts"),  # lista opcional de 1–4
-        "negative_prompt": job_input.get("negative_prompt"),
-        "crf": job_input.get("crf"),
-        "duracion": job_input.get("duracion"),
-    }
-    prompt_graph = apply_core_params(prompt_graph, args)
+    workflow_path = None
+    if "workflow_base64" in job_input:
+        workflow_path = process_input(job_input["workflow_base64"], task_id, "SVI_base64_api.json", "base64")
+        prompt_graph = load_workflow(workflow_path)
+    else:
+        workflow_path = job_input.get("workflow_path", "SVI_extension_api.json")
+        logger.info("Usando workflow_path por defecto SVI_extension_api.json")
+        
+        #workflow_path = job_input.get("workflow_path", "SVI_extension_api.json")
+        prompt_graph = load_workflow(workflow_path)
+        args = {
+            "image_path": image_path,
+            "width": job_input.get("width", 480),
+            "height": job_input.get("height", 832),
+            "fps": job_input.get("fps", 16),
+            "frames_per_section": job_input.get("frames_per_section", 81),
+            "prompt": job_input.get("prompt"),
+            "prompts": job_input.get("prompts"),  # lista opcional de 1–4
+            "negative_prompt": job_input.get("negative_prompt"),
+            "crf": job_input.get("crf"),
+            "duracion": job_input.get("duracion"),
+        }
+        prompt_graph = apply_core_params(prompt_graph, args)
 
-    # 3) Aplicar SOLO los últimos 2 LoRAs por rama (si vienen)
-    loras = job_input.get("loras", None)
-    if loras:
-        prompt_graph = apply_last_two_loras(prompt_graph, loras)
+        # 3) Aplicar SOLO los últimos 2 LoRAs por rama (si vienen)
+        loras = job_input.get("loras", None)
+        if loras:
+            prompt_graph = apply_last_two_loras(prompt_graph, loras)
 
     # 4) Conectar WebSocket (tras asegurar ComfyUI arriba)
     ws_url = comfy_ws_url(client_id)
