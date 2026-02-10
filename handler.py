@@ -486,10 +486,10 @@ def handler(job):
                 "video": files[0],  # base64 del primer artefacto (MP4 esperado)
                 "meta": {
                     "node_id": node_id,
-                    "width": to_nearest_multiple_of_16(args["width"]),
-                    "height": to_nearest_multiple_of_16(args["height"]),
-                    "fps": int(args["fps"]),
-                    "frames_per_section": int(args["frames_per_section"]),
+                    "width": 480),
+                    "height": 832),
+                    "fps": 16),
+                    "frames_per_section": 81),
                     "sections": 4
                 }
             }
