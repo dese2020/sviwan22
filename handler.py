@@ -434,6 +434,8 @@ def handler(job):
     if "workflow_base64" in job_input:
         workflow_path = process_input(job_input["workflow_base64"], task_id, "SVI_base64_api.json", "base64")
         prompt_graph = load_workflow(workflow_path)
+        # Imagen
+        prompt_graph[NODES["LOAD_IMAGE"]]["inputs"]["image"] = image_path
     else:
         workflow_path = job_input.get("workflow_path", "SVI_extension_api.json")
         logger.info("Usando workflow_path por defecto SVI_extension_api.json")
