@@ -489,7 +489,7 @@ def handler(job):
                     "width": 480,
                     "height": 832,
                     "fps": 16,
-                    "frames_per_section": 81),
+                    "frames_per_section": 81,
                     "sections": 4
                 }
             }
