@@ -31,5 +31,6 @@ COPY . .
 RUN mkdir -p /ComfyUI/user/default/ComfyUI-Manager
 COPY config.ini /ComfyUI/user/default/ComfyUI-Manager/config.ini
 COPY extra_model_paths.yaml /ComfyUI/extra_model_paths.yaml
+COPY rife49.pth /ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation/ckpts/rife/rife49.pth
 RUN chmod +x /entrypoint.sh
 CMD ["/entrypoint.sh"]
