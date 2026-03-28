@@ -9,7 +9,7 @@ FROM dese251/sviwan22:lora AS lora
 FROM dese251/sviwan22:lora2 AS lora2
 
 # 2) Imagen final basada en runtime (una sola FROM final)
-FROM dese251/sviwan22:run AS final
+FROM dese251/sviwan22:run2 AS final
 ENV PATH="/opt/venv/bin:${PATH}"
 WORKDIR /
 

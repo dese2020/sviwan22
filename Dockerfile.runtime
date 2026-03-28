@@ -7,54 +7,41 @@ RUN pip install runpod websocket-client
 
 WORKDIR /
 
-
 # Antes de clonar, ajusta git
 RUN git config --global http.version HTTP/1.1 \
  && git config --global http.lowSpeedLimit 1 \
  && git config --global http.lowSpeedTime 600 \
- && git config --global http.postBuffer 524288000
-
-
-RUN git clone https://github.com/comfyanonymous/ComfyUI.git && \
-    cd /ComfyUI && \
-    pip install --no-cache-dir -r requirements.txt
-
-RUN cd /ComfyUI/custom_nodes && \
-    git clone https://github.com/kijai/ComfyUI-KJNodes && \
-    cd ComfyUI-KJNodes && \
-    pip install --no-cache-dir -r requirements.txt
-
-RUN cd /ComfyUI/custom_nodes && \
-    git clone https://github.com/Fannovel16/ComfyUI-Frame-Interpolation.git && \
-    cd ComfyUI-Frame-Interpolation && \
-    python install.py
-    
-RUN cd /ComfyUI/custom_nodes && \
-    git clone https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite && \
-    cd ComfyUI-VideoHelperSuite && \
-    pip install --no-cache-dir -r requirements.txt
-	
-RUN cd /ComfyUI/custom_nodes && \
-    git clone https://github.com/yolain/ComfyUI-Easy-Use.git && \
-    cd ComfyUI-Easy-Use && \
-    pip install --no-cache-dir -r requirements.txt
-
-RUN cd /ComfyUI/custom_nodes && \
-    git clone https://github.com/city96/ComfyUI-GGUF.git && \
-    cd ComfyUI-GGUF && \
-    pip install --no-cache-dir -r requirements.txt
-	
-RUN cd /ComfyUI/custom_nodes && \
-    git clone https://github.com/wallen0322/ComfyUI-Wan22FMLF.git
-	
-	
-RUN cd /ComfyUI/custom_nodes && \
-    git clone https://github.com/cubiq/ComfyUI_essentials.git && \
-    cd ComfyUI_essentials && \
-    pip install --no-cache-dir -r requirements.txt
-	
-RUN cd /ComfyUI/custom_nodes && \
-    git clone https://github.com/M1kep/ComfyLiterals.git
+ && git config --global http.postBuffer 524288000 \
+ \
+ && git clone --depth=1 https://github.com/comfyanonymous/ComfyUI.git /ComfyUI \
+ \
+ && pip install --no-cache-dir -r /ComfyUI/requirements.txt \
+ \
+ && mkdir -p /ComfyUI/custom_nodes \
+ \
+ && git clone --depth=1 https://github.com/kijai/ComfyUI-KJNodes /ComfyUI/custom_nodes/ComfyUI-KJNodes \
+ && pip install --no-cache-dir -r /ComfyUI/custom_nodes/ComfyUI-KJNodes/requirements.txt \
+ \
+ && git clone --depth=1 https://github.com/Fannovel16/ComfyUI-Frame-Interpolation /ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation \
+ && python /ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation/install.py \
+ \
+ && git clone --depth=1 https://github.com/Kosinkadink/ComfyUI-VideoHelperSuite /ComfyUI/custom_nodes/ComfyUI-VideoHelperSuite \
+ && pip install --no-cache-dir -r /ComfyUI/custom_nodes/ComfyUI-VideoHelperSuite/requirements.txt \
+ \
+ && git clone --depth=1 https://github.com/yolain/ComfyUI-Easy-Use /ComfyUI/custom_nodes/ComfyUI-Easy-Use \
+ && pip install --no-cache-dir -r /ComfyUI/custom_nodes/ComfyUI-Easy-Use/requirements.txt \
+ \
+ && git clone --depth=1 https://github.com/city96/ComfyUI-GGUF /ComfyUI/custom_nodes/ComfyUI-GGUF \
+ && pip install --no-cache-dir -r /ComfyUI/custom_nodes/ComfyUI-GGUF/requirements.txt \
+ \
+ && git clone --depth=1 https://github.com/wallen0322/ComfyUI-Wan22FMLF /ComfyUI/custom_nodes/ComfyUI-Wan22FMLF \
+ \
+ && git clone --depth=1 https://github.com/cubiq/ComfyUI_essentials /ComfyUI/custom_nodes/ComfyUI_essentials \
+ && pip install --no-cache-dir -r /ComfyUI/custom_nodes/ComfyUI_essentials/requirements.txt \
+ \
+ && git clone --depth=1 https://github.com/M1kep/ComfyLiterals /ComfyUI/custom_nodes/ComfyLiterals \
+ \
+ && find /ComfyUI -name ".git" -type d -exec rm -rf {} + 
 	
 #COPY . .
 #RUN mkdir -p /ComfyUI/user/default/ComfyUI-Manager
