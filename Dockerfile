@@ -2,9 +2,9 @@
 # syntax=docker/dockerfile:1.7
 
 # 1) Etapas de assets (alias distintos)
-FROM dese251/sviwan22:bassets AS assets_b
-FROM dese251/sviwan22:hassets AS assets_h
-FROM dese251/sviwan22:lassets AS assets_l
+FROM dese251/sviwan22:bassets2 AS assets_b
+FROM dese251/sviwan22:hassets2 AS assets_h
+FROM dese251/sviwan22:lassets2 AS assets_l
 FROM dese251/sviwan22:lora AS lora
 FROM dese251/sviwan22:lora2 AS lora2
 

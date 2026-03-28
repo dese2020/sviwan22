@@ -21,6 +21,8 @@ RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/m
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/pov_ride/W22_POV_Cowgirl_Insertion_i2v_LN_v1.safetensors -O /ComfyUI/models/loras/W22_POV_Cowgirl_Insertion_i2v_LN_v1.safetensors 
 RUN wget -q https://huggingface.co/hijdese2020/coopbj/resolve/main/WAN-2.2-I2V-Double-Blowjob-HIGH-v1.safetensors -O /ComfyUI/models/loras/WAN-2.2-I2V-Double-Blowjob-HIGH-v1.safetensors
 RUN wget -q https://huggingface.co/hijdese2020/coopbj/resolve/main/WAN-2.2-I2V-Double-Blowjob-LOW-v1.safetensors -O /ComfyUI/models/loras/WAN-2.2-I2V-Double-Blowjob-LOW-v1.safetensors 
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/multiblow/W22_Multiscene_BJ_i2v_HN.safetensors -O /ComfyUI/models/loras/W22_Multiscene_BJ_i2v_HN.safetensors
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/multiblow/W22_Multiscene_BJ_i2v_LN.safetensors -O /ComfyUI/models/loras/W22_Multiscene_BJ_i2v_LN.safetensors
 
 # Imagen final de assets con solo /ComfyUI/models
 FROM scratch
