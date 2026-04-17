@@ -10,14 +10,10 @@ RUN mkdir -p \
   /ComfyUI/models/diffusion_models \
   /ComfyUI/models/loras
 
-RUN wget -q https://huggingface.co/hijdese2020/ultimate_deep/resolve/main/wan22-ultimatedeepthroat-I2V-34epoc-high-k3nk.safetensors -O /ComfyUI/models/loras/wan22-ultimatedeepthroat-I2V-34epoc-high-k3nk.safetensors
-RUN wget -q https://huggingface.co/hijdese2020/ultimate_deep/resolve/main/wan22-ultimatedeepthroat-I2V-101epoc-low-k3nk.safetensors -O /ComfyUI/models/loras/wan22-ultimatedeepthroat-I2V-101epoc-low-k3nk.safetensors
 RUN wget -q https://huggingface.co/hijdese2020/facialsplash/resolve/main/wan22-f4c3spl4sh-100epoc-high-k3nk.safetensors -O /ComfyUI/models/loras/wan22-f4c3spl4sh-100epoc-high-k3nk.safetensors 
 RUN wget -q https://huggingface.co/hijdese2020/facialsplash/resolve/main/wan22-f4c3spl4sh-154epoc-low-k3nk.safetensors  -O /ComfyUI/models/loras/wan22-f4c3spl4sh-154epoc-low-k3nk.safetensors  
 RUN wget -q https://huggingface.co/hijdese2020/oral_insert/resolve/main/wan2.2-i2v-high-oral-insertion-v1.0.safetensors -O /ComfyUI/models/loras/wan2.2-i2v-high-oral-insertion-v1.0.safetensors 
 RUN wget -q https://huggingface.co/hijdese2020/oral_insert/resolve/main/wan2.2-i2v-low-oral-insertion-v1.0.safetensors  -O /ComfyUI/models/loras/wan2.2-i2v-low-oral-insertion-v1.0.safetensors 
-RUN wget -q https://huggingface.co/hijdese2020/nude/resolve/main/W22_NSFW_Posing_Nude_i2v_HN_v1.safetensors -O /ComfyUI/models/loras/W22_NSFW_Posing_Nude_i2v_HN_v1.safetensors 
-RUN wget -q https://huggingface.co/hijdese2020/nude/resolve/main/W22_NSFW_Posing_Nude_i2v_LN_v1.safetensors -O /ComfyUI/models/loras/W22_NSFW_Posing_Nude_i2v_LN_v1.safetensors 
 RUN wget -q https://huggingface.co/hijdese2020/breast_insert/resolve/main/wan2.2-i2v-high-breast-insertion-v1.0.safetensors  -O /ComfyUI/models/loras/wan2.2-i2v-high-breast-insertion-v1.0.safetensors 
 RUN wget -q https://huggingface.co/hijdese2020/breast_insert/resolve/main/wan2.2-i2v-low-breast-insertion-v1.0.safetensors -O /ComfyUI/models/loras/wan2.2-i2v-low-breast-insertion-v1.0.safetensors 
 RUN wget -q https://huggingface.co/hijdese2020/sex_fov/resolve/main/wan2.2-i2v-high-sex-fov-slider-v1.0.safetensors -O /ComfyUI/models/loras/wan2.2-i2v-high-sex-fov-slider-v1.0.safetensors  
@@ -32,13 +28,10 @@ RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/m
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_cum/iGoon_Blink_Facial_I2V_LOW.safetensors  -O /ComfyUI/models/loras/iGoon_Blink_Facial_I2V_LOW.safetensors 
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/allnsfw/wan22-k3nk4llinon3-15epoc-full-low-k3nk.safetensors -O /ComfyUI/models/loras/wan22-k3nk4llinon3-15epoc-full-low-k3nk.safetensors
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/allnsfw/wan22-k3nk4llinon3-16epoc-full-high-k3nk.safetensors -O /ComfyUI/models/loras/wan22-k3nk4llinon3-16epoc-full-high-k3nk.safetensors
-
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_ride/Blink_Squatting_Cowgirl_Position_I2V_HIGH.safetensors -O /ComfyUI/models/loras/Blink_Squatting_Cowgirl_Position_I2V_HIGH.safetensors
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_ride/Blink_Squatting_Cowgirl_Position_I2V_LOW.safetensors  -O /ComfyUI/models/loras/Blink_Squatting_Cowgirl_Position_I2V_LOW.safetensors
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_doggy/iGoon-Blink_Front_Doggystyle_I2V_HIGH.safetensors    -O /ComfyUI/models/loras/iGoon-Blink_Front_Doggystyle_I2V_HIGH.safetensors
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_doggy/iGoon-Blink_Front_Doggystyle_I2V_LOW.safetensors     -O /ComfyUI/models/loras/iGoon-Blink_Front_Doggystyle_I2V_LOW.safetensors 
-RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_fuck/iGoon-Blink_Missionary_I2V_LOW_v2.safetensors         -O /ComfyUI/models/loras/iGoon-Blink_Missionary_I2V_LOW_v2.safetensors
-RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/blink_fuck/iGoon_Blink_Missionary_I2V_HIGH_v2.safetensors        -O /ComfyUI/models/loras/iGoon_Blink_Missionary_I2V_HIGH_v2.safetensors
 
 
 # Imagen final de assets con solo /ComfyUI/models

@@ -12,17 +12,17 @@ RUN mkdir -p \
 
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/multi_nude/W22_Multiscene_Photoshoot_Softcore_i2v_HN.safetensors -O /ComfyUI/models/loras/W22_Multiscene_Photoshoot_Softcore_i2v_HN.safetensors                       
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/multi_nude/W22_Multiscene_Photoshoot_Softcore_i2v_LN.safetensors -O /ComfyUI/models/loras/W22_Multiscene_Photoshoot_Softcore_i2v_LN.safetensors                        
-RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/kiss/WAN2.2-FrenchKiss_HighNoise.safetensors -O /ComfyUI/models/loras/WAN2.2-FrenchKiss_HighNoise.safetensors                        
-RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/kiss/WAN2.2-FrenchKiss_LowNoise.safetensors -O /ComfyUI/models/loras/WAN2.2-FrenchKiss_LowNoise.safetensors                        
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/missionary/W22_HN_i2v_POV_Missionary_Insertion_v1.safetensors -O /ComfyUI/models/loras/W22_HN_i2v_POV_Missionary_Insertion_v1.safetensors
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/missionary/W22_LN_i2v_POV_Missionary_Insertion_v1.safetensors -O /ComfyUI/models/loras/W22_LN_i2v_POV_Missionary_Insertion_v1.safetensors
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/pov_ride/W22_POV_Cowgirl_Insertion_i2v_HN_v1A.safetensors -O /ComfyUI/models/loras/W22_POV_Cowgirl_Insertion_i2v_HN_v1A.safetensors
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/pov_ride/W22_POV_Cowgirl_Insertion_i2v_HN_v1B.safetensors -O /ComfyUI/models/loras/W22_POV_Cowgirl_Insertion_i2v_HN_v1B.safetensors
 RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/pov_ride/W22_POV_Cowgirl_Insertion_i2v_LN_v1.safetensors -O /ComfyUI/models/loras/W22_POV_Cowgirl_Insertion_i2v_LN_v1.safetensors 
-RUN wget -q https://huggingface.co/hijdese2020/coopbj/resolve/main/WAN-2.2-I2V-Double-Blowjob-HIGH-v1.safetensors -O /ComfyUI/models/loras/WAN-2.2-I2V-Double-Blowjob-HIGH-v1.safetensors
-RUN wget -q https://huggingface.co/hijdese2020/coopbj/resolve/main/WAN-2.2-I2V-Double-Blowjob-LOW-v1.safetensors -O /ComfyUI/models/loras/WAN-2.2-I2V-Double-Blowjob-LOW-v1.safetensors 
-RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/multiblow/W22_Multiscene_BJ_i2v_HN.safetensors -O /ComfyUI/models/loras/W22_Multiscene_BJ_i2v_HN.safetensors
-RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/multiblow/W22_Multiscene_BJ_i2v_LN.safetensors -O /ComfyUI/models/loras/W22_Multiscene_BJ_i2v_LN.safetensors
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/double_pen/Pornmaster_wan2.2_14b_I2V_double_penetration_v1_high_noise.safetensors -O /ComfyUI/models/loras/Pornmaster_wan2.2_14b_I2V_double_penetration_v1_high_noise.safetensors
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/double_pen/Pornmaster_wan2.2_14b_I2V_double_penetration_v1_low_noise.safetensors -O /ComfyUI/models/loras/Pornmaster_wan2.2_14b_I2V_double_penetration_v1_low_noise.safetensors
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/oral_fem/wan22-cunilingus-I2V-106epoc-high.safetensors -O /ComfyUI/models/loras/wan22-cunilingus-I2V-106epoc-high.safetensors
+RUN wget -q https://huggingface.co/datasets/hijdese2020/wan22_datalora/resolve/main/oral_fem/wan22-cunilingus-I2V-72epoc-low.safetensors -O /ComfyUI/models/loras/wan22-cunilingus-I2V-72epoc-low.safetensors
+RUN wget -q https://huggingface.co/hijdese2020/cheekfk/resolve/main/FF-v3-high-120.safetensors -O /ComfyUI/models/loras/FF-v3-high-120.safetensors
+RUN wget -q https://huggingface.co/hijdese2020/cheekfk/resolve/main/FF-v3-low-120.safetensors -O /ComfyUI/models/loras/FF-v3-low-120.safetensors
 
 # Imagen final de assets con solo /ComfyUI/models
 FROM scratch
