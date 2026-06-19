@@ -28,6 +28,9 @@ COPY --from=lora2 /ComfyUI/models/loras/ /ComfyUI/models/loras/
 # ---- Cambios frecuentes: SOLO aquí ----
 RUN python3 -c "from huggingface_hub import hf_hub_download; hf_hub_download(repo_id='BigDannyPt/Wan-2.2-Remix-GGUF', filename='I2V/v3.0/High/wan22RemixT2VI2V_i2vHighV30-Q8_0.gguf', local_dir='/ComfyUI/models/diffusion_models/', local_dir_use_symlinks=False)"
 RUN python3 -c "from huggingface_hub import hf_hub_download; hf_hub_download(repo_id='BigDannyPt/Wan-2.2-Remix-GGUF', filename='I2V/v3.0/Low/wan22RemixT2VI2V_i2vLowV30-Q8_0.gguf', local_dir='/ComfyUI/models/diffusion_models/', local_dir_use_symlinks=False)"
+RUN mv /ComfyUI/models/diffusion_models/I2V/v3.0/High/wan22RemixT2VI2V_i2vHighV30-Q8_0.gguf /ComfyUI/models/diffusion_models/wan22RemixT2VI2V_i2vHighV30-Q8_0.gguf 
+RUN mv /ComfyUI/models/diffusion_models/I2V/v3.0/Low/wan22RemixT2VI2V_i2vLowV30-Q8_0.gguf /ComfyUI/models/diffusion_models/wan22RemixT2VI2V_i2vLowV30-Q8_0.gguf 
+
 
 RUN python3 -c "from huggingface_hub import hf_hub_download; hf_hub_download(repo_id='hijdese2020/wan22_datalora', repo_type='dataset', filename='blowbang/bl0wb4ng_HN_80.safetensors', local_dir='/ComfyUI/models/loras/', local_dir_use_symlinks=False)"
 RUN python3 -c "from huggingface_hub import hf_hub_download; hf_hub_download(repo_id='hijdese2020/wan22_datalora', repo_type='dataset', filename='blowbang/bl0wb4ng_LN_80.safetensors', local_dir='/ComfyUI/models/loras/', local_dir_use_symlinks=False)"
