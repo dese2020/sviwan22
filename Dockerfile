@@ -37,7 +37,7 @@ RUN python3 -c "from huggingface_hub import hf_hub_download; hf_hub_download(rep
 RUN python3 -c "from huggingface_hub import hf_hub_download; hf_hub_download(repo_id='hijdese2020/wan22_datalora', repo_type='dataset', filename='clearcum/CIM_WAN22_I2V_512_high_noise.safetensors', local_dir='/ComfyUI/models/loras/', local_dir_use_symlinks=False)"
 RUN python3 -c "from huggingface_hub import hf_hub_download; hf_hub_download(repo_id='hijdese2020/wan22_datalora', repo_type='dataset', filename='clearcum/CIM_WAN22_I2V_512_low_noise.safetensors', local_dir='/ComfyUI/models/loras/', local_dir_use_symlinks=False)"
 
-# (Opcional) Verifica permisos del entrypoint si no estuvieran en la base:
+# (Opcional) Verifica permisos del entrypoint si no estuvieran en la bases:
 # RUN chmod +x /entrypoint.sh
 COPY . .
 RUN mkdir -p /ComfyUI/user/default/ComfyUI-Manager
