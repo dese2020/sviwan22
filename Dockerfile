@@ -54,22 +54,30 @@ files = [
 	"pov_ride/W22_POV_Cowgirl_Insertion_i2v_LN_v1.safetensors"
 ]
 
-os.makedirs(local_dir, exist_ok=True)
-
 for f in files:
     path = hf_hub_download(
         repo_id=repo_id,
         repo_type=repo_type,
         filename=f,
+		local_dir=local_dir
     )
 
-    # nombre plano (sin carpetas)
-    out_name = os.path.basename(f)
-    out_path = os.path.join(local_dir, out_name)
-
-    os.replace(path, out_path)
-
 EOF
+
+RUN	mv /ComfyUI/models/loras/blowbang/bl0wb4ng_HN_80.safetensors                               /ComfyUI/models/loras/bl0wb4ng_HN_80.safetensors                            \
+    mv /ComfyUI/models/loras/blowbang/bl0wb4ng_LN_80.safetensors                               /ComfyUI/models/loras/bl0wb4ng_LN_80.safetensors                            \
+    mv /ComfyUI/models/loras/clearcum/CIM_WAN22_I2V_512_high_noise.safetensors                 /ComfyUI/models/loras/CIM_WAN22_I2V_512_high_noise.safetensors              \
+    mv /ComfyUI/models/loras/clearcum/CIM_WAN22_I2V_512_low_noise.safetensors                  /ComfyUI/models/loras/CIM_WAN22_I2V_512_low_noise.safetensors               \
+	mv /ComfyUI/models/loras/throatpie/Throatpie_WAN22_I2V_high_noise.safetensors              /ComfyUI/models/loras/Throatpie_WAN22_I2V_high_noise.safetensors            \
+	mv /ComfyUI/models/loras/throatpie/Throatpie_WAN22_I2V_low_noise.safetensors               /ComfyUI/models/loras/Throatpie_WAN22_I2V_low_noise.safetensors             \
+	mv /ComfyUI/models/loras/multi_nude/W22_Multiscene_Photoshoot_Softcore_i2v_HN.safetensors  /ComfyUI/models/loras/W22_Multiscene_Photoshoot_Softcore_i2v_HN.safetensors \
+	mv /ComfyUI/models/loras/multi_nude/W22_Multiscene_Photoshoot_Softcore_i2v_LN.safetensors  /ComfyUI/models/loras/W22_Multiscene_Photoshoot_Softcore_i2v_LN.safetensors \
+	mv /ComfyUI/models/loras/missionary/W22_HN_i2v_POV_Missionary_Insertion_v1.safetensors     /ComfyUI/models/loras/W22_HN_i2v_POV_Missionary_Insertion_v1.safetensors    \
+	mv /ComfyUI/models/loras/missionary/W22_LN_i2v_POV_Missionary_Insertion_v1.safetensors     /ComfyUI/models/loras/W22_LN_i2v_POV_Missionary_Insertion_v1.safetensors    \
+	mv /ComfyUI/models/loras/pov_ride/W22_POV_Cowgirl_Insertion_i2v_HN_v1A.safetensors         /ComfyUI/models/loras/W22_POV_Cowgirl_Insertion_i2v_HN_v1A.safetensors      \
+	mv /ComfyUI/models/loras/pov_ride/W22_POV_Cowgirl_Insertion_i2v_LN_v1.safetensors          /ComfyUI/models/loras/W22_POV_Cowgirl_Insertion_i2v_LN_v1.safetensors       
+
+
 
 # (Opcional) Verifica permisos del entrypoint si no estuvieran en la bases:
 # RUN chmod +x /entrypoint.sh
