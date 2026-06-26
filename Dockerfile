@@ -31,15 +31,30 @@ RUN python3 -c "from huggingface_hub import hf_hub_download; hf_hub_download(rep
 RUN mv /ComfyUI/models/diffusion_models/I2V/v3.0/High/wan22RemixT2VI2V_i2vHighV30-Q8_0.gguf /ComfyUI/models/diffusion_models/wan22RemixT2VI2V_i2vHighV30-Q8_0.gguf 
 RUN mv /ComfyUI/models/diffusion_models/I2V/v3.0/Low/wan22RemixT2VI2V_i2vLowV30-Q8_0.gguf /ComfyUI/models/diffusion_models/wan22RemixT2VI2V_i2vLowV30-Q8_0.gguf 
 
-RUN wget -q https://huggingface.co/hijdese2020/facialsplash/resolve/main/wan22-f4c3spl4sh-100epoc-high-k3nk.safetensors -O /ComfyUI/models/loras/wan22-f4c3spl4sh-100epoc-high-k3nk.safetensors         && \
-	wget -q https://huggingface.co/hijdese2020/facialsplash/resolve/main/wan22-f4c3spl4sh-154epoc-low-k3nk.safetensors  -O /ComfyUI/models/loras/wan22-f4c3spl4sh-154epoc-low-k3nk.safetensors          && \
-	wget -q https://huggingface.co/hijdese2020/oral_insert/resolve/main/wan2.2-i2v-high-oral-insertion-v1.0.safetensors -O /ComfyUI/models/loras/wan2.2-i2v-high-oral-insertion-v1.0.safetensors        && \
-	wget -q https://huggingface.co/hijdese2020/oral_insert/resolve/main/wan2.2-i2v-low-oral-insertion-v1.0.safetensors  -O /ComfyUI/models/loras/wan2.2-i2v-low-oral-insertion-v1.0.safetensors         && \
-	wget -q https://huggingface.co/hijdese2020/breast_insert/resolve/main/wan2.2-i2v-high-breast-insertion-v1.0.safetensors  -O /ComfyUI/models/loras/wan2.2-i2v-high-breast-insertion-v1.0.safetensors && \
-	wget -q https://huggingface.co/hijdese2020/breast_insert/resolve/main/wan2.2-i2v-low-breast-insertion-v1.0.safetensors -O /ComfyUI/models/loras/wan2.2-i2v-low-breast-insertion-v1.0.safetensors    && \
-	wget -q https://huggingface.co/hijdese2020/sex_fov/resolve/main/wan2.2-i2v-high-sex-fov-slider-v1.0.safetensors -O /ComfyUI/models/loras/wan2.2-i2v-high-sex-fov-slider-v1.0.safetensors            && \
-	wget -q https://huggingface.co/hijdese2020/sex_fov/resolve/main/wan2.2-i2v-low-sex-fov-slider-v1.0.safetensors -O /ComfyUI/models/loras/wan2.2-i2v-low-sex-fov-slider-v1.0.safetensors         
 
+RUN python3 - <<'EOF'
+from huggingface_hub import hf_hub_download
+
+downloads = [
+    ('hijdese2020/facialsplash',  'wan22-f4c3spl4sh-100epoc-high-k3nk.safetensors'),
+    ('hijdese2020/facialsplash',  'wan22-f4c3spl4sh-154epoc-low-k3nk.safetensors'),
+    ('hijdese2020/oral_insert',   'wan2.2-i2v-high-oral-insertion-v1.0.safetensors'),
+    ('hijdese2020/oral_insert',   'wan2.2-i2v-low-oral-insertion-v1.0.safetensors'),
+    ('hijdese2020/breast_insert', 'wan2.2-i2v-high-breast-insertion-v1.0.safetensors'),
+    ('hijdese2020/breast_insert', 'wan2.2-i2v-low-breast-insertion-v1.0.safetensors'),
+    ('hijdese2020/sex_fov',       'wan2.2-i2v-high-sex-fov-slider-v1.0.safetensors'),
+    ('hijdese2020/sex_fov',       'wan2.2-i2v-low-sex-fov-slider-v1.0.safetensors'),
+]
+
+for repo_id, filename in downloads:
+    print(f'Downloading {filename}...')
+    hf_hub_download(
+        repo_id=repo_id,
+        filename=filename,
+        local_dir='/ComfyUI/models/loras',
+        local_dir_use_symlinks=False
+    )
+EOF
 
 RUN python3 - <<'EOF'
 import os
