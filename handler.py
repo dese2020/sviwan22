@@ -14,6 +14,7 @@ import subprocess
 
 import websocket
 import runpod
+from huggingface_hub import hf_hub_download
 # from runpod.serverless.utils import rp_upload  # opcional, no necesario por ahora
 
 # --------------------------------------------------------------------------------------
@@ -26,6 +27,22 @@ logger = logging.getLogger(__name__)
 # Preferimos COMFY_HOST/COMFY_PORT; mantenemos SERVER_ADDRESS como compatibilidad
 COMFY_HOST = os.getenv("COMFY_HOST", os.getenv("SERVER_ADDRESS", "127.0.0.1"))
 COMFY_PORT = int(os.getenv("COMFY_PORT", "8188"))
+
+# Directorios locales de ComfyUI por tipo de modelo, y repo_id de HF por defecto
+# (usado cuando una entrada no trae su propio repo_id)
+MODEL_DIRS = {
+    "lora": os.getenv("LORAS_DIR", "/ComfyUI/models/loras/"),
+    "vae": os.getenv("VAE_DIR", "/ComfyUI/models/vae/"),
+    "text_encoder": os.getenv("TEXT_ENCODERS_DIR", "/ComfyUI/models/text_encoders/"),
+    "clip": os.getenv("CLIP_DIR", "/ComfyUI/models/clip/"),
+    "diffusion_model": os.getenv("DIFFUSION_MODELS_DIR", "/ComfyUI/models/diffusion_models/"),
+    "checkpoint": os.getenv("CHECKPOINTS_DIR", "/ComfyUI/models/checkpoints/"),
+    "controlnet": os.getenv("CONTROLNET_DIR", "/ComfyUI/models/controlnet/"),
+    "upscale_model": os.getenv("UPSCALE_MODELS_DIR", "/ComfyUI/models/upscale_models/"),
+}
+LORAS_DIR = MODEL_DIRS["lora"]  # se mantiene por compatibilidad con el resto del código
+# TODO: reemplaza esto por el repo_id real donde viven tus LoRAs en HF
+LORA_REPO_ID = os.getenv("LORA_REPO_ID", "'hijdese2020/x")
 
 # Identificador del cliente para el WS de ComfyUI
 client_id = str(uuid.uuid4())
@@ -99,6 +116,100 @@ def process_input(input_data, temp_dir, output_filename, input_type):
         return save_base64_to_file(input_data, temp_dir, output_filename)
     else:
         raise Exception(f"input_type no soportado: {input_type}")
+
+
+def download_hf_file(repo_id, filename, local_dir, repo_type):
+    """
+    Descarga `filename` desde `repo_id` (HuggingFace) a `local_dir`, preservando
+    cualquier subcarpeta que traiga `filename`. Si ya existe localmente, no
+    vuelve a descargar. Retorna la ruta local del archivo.
+    """
+    os.makedirs(local_dir, exist_ok=True)
+    local_path = os.path.join(local_dir, filename)
+
+    if os.path.isfile(local_path):
+        logger.info(f"✅ Ya presente localmente: {local_path}")
+        return local_path
+
+    logger.info(f"⬇️ Descargando '{filename}' desde '{repo_id}'...")
+    try:
+        downloaded_path = hf_hub_download(
+            repo_id=repo_id,
+            filename=filename,
+            repo_type=repo_type,
+            local_dir=local_dir,
+            local_dir_use_symlinks=False,
+        )
+        logger.info(f"✅ Descargado: {downloaded_path}")
+        return downloaded_path
+    except Exception as e:
+        logger.error(f"❌ Error descargando '{filename}' de '{repo_id}': {e}")
+        raise Exception(f"Error descargando '{filename}' de '{repo_id}': {e}")
+
+
+def normalize_lora_entries(lora_field):
+    """
+    Normaliza el campo `lora` del payload a una lista de dicts
+    {repo_id, filename, type}. Acepta:
+      - string:            "nombre_archivo.safetensors"                     -> type "lora"
+      - dict:               {"repo_id": "...", "filename": "...", "type": "vae"}
+      - lista de strings:  ["a.safetensors", "b.safetensors"]
+      - lista de dicts:    [{"repo_id": "...", "filename": "...", "type": "..."}, ...]
+      - mezcla de strings y dicts dentro de la lista
+    Si una entrada no trae repo_id, se usa LORA_REPO_ID por defecto.
+    Si una entrada no trae type, se asume "lora".
+    `type` debe ser una de las claves de MODEL_DIRS
+    (lora, vae, text_encoder, clip, diffusion_model, checkpoint, controlnet, upscale_model).
+    """
+    if not lora_field:
+        return []
+
+    items = lora_field if isinstance(lora_field, list) else [lora_field]
+
+    entries = []
+    for item in items:
+        if isinstance(item, str):
+            entries.append({"repo_id": LORA_REPO_ID, "filename": item, "type": "lora", "repo_type": "model"})
+        elif isinstance(item, dict):
+            filename = item.get("filename") or item.get("name")
+            model_type = item.get("type", "lora")
+            repo_type = item.get("repo_type", "model")
+            entries.append({
+                "repo_id": item.get("repo_id", LORA_REPO_ID),
+                "filename": filename,
+                "type": model_type,
+                "repo_type": repo_type,
+            })
+        else:
+            logger.warning(f"⚠️ Entrada de lora con formato no soportado, se omite: {item}")
+    return entries
+
+
+def ensure_loras_available(lora_field):
+    """
+    Recibe el campo `lora` del payload (uno o varios) y descarga cada uno al
+    directorio correspondiente a su `type` (ver MODEL_DIRS) si no está presente.
+    Retorna la lista de rutas locales.
+    """
+    entries = normalize_lora_entries(lora_field)
+    local_paths = []
+    for entry in entries:
+        repo_id = entry.get("repo_id")
+        filename = entry.get("filename")
+        model_type = entry.get("type", "lora")
+        repo_type = entry.get("repo_type", "model")
+
+        if not repo_id or not filename:
+            logger.warning(f"⚠️ Entrada de lora inválida (falta repo_id o filename), se omite: {entry}")
+            continue
+
+        local_dir = MODEL_DIRS.get(model_type)
+        if not local_dir:
+            logger.warning(f"⚠️ type '{model_type}' no reconocido, se usa 'lora' por defecto: {entry}")
+            local_dir = MODEL_DIRS["lora"]
+
+        local_paths.append(download_hf_file(repo_id, filename, local_dir, repo_type))
+    return local_paths
 
 
 # --------------------------------------------------------------------------------------
@@ -416,6 +527,11 @@ def handler(job):
 
     # 0) Asegurar que ComfyUI está corriendo en este worker
     ensure_comfyui_running()
+
+    # 0.1) Asegurar que el/los lora(s) solicitados estén disponibles localmente (descarga si falta)
+    lora_field = job_input.get("lora")
+    if lora_field:
+        ensure_loras_available(lora_field)
 
     # 1) Normalizar imagen de entrada
     image_path = None
