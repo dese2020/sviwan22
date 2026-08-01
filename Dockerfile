@@ -30,6 +30,7 @@ RUN python3 -m venv /opt/venv && \
     pip install --no-cache-dir torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu130
 
 RUN pip install --no-cache-dir "huggingface_hub[hf_transfer]" runpod websocket-client
+RUN pip install --no-cache-dir sageattention
 
 # 3. Clonado de ComfyUI y Nodos Personalizados
 RUN git config --global http.version HTTP/1.1 && \
