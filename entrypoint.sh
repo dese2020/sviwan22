@@ -125,6 +125,14 @@ fi
 ########################################
 # 6. START HANDLER
 ########################################
-echo "[START] Handler..."
+echo "[START] Launching RunPod Handler..."
 
-exec python handler.py
+# Buscar handler.py en el directorio actual o en /app
+if [ -f "handler.py" ]; then
+    exec python3 handler.py
+elif [ -f "/app/handler.py" ]; then
+    exec python3 /app/handler.py
+else
+    echo "[FAIL] handler.py no fue encontrado."
+    exit 6
+fi

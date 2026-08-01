@@ -113,6 +113,8 @@ RUN [ -f extra_model_paths.yaml ] && cp extra_model_paths.yaml /ComfyUI/extra_mo
 RUN [ -f rife49.pth ] && cp rife49.pth /ComfyUI/custom_nodes/ComfyUI-Frame-Interpolation/ckpts/rife/rife49.pth || true
 
 RUN chmod +x /app/entrypoint.sh
-WORKDIR /
+
+# CAMBIO AQUÍ: Mantener el WORKDIR en /app en lugar de volver a /
+WORKDIR /app
 
 CMD ["/app/entrypoint.sh"]
